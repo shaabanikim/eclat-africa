@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E'clat Africa | Quiet Luxury</title>
+    <meta name="description" content="Effortless elegance, quiet radiance. Curated lip tones crafted for the modern minimalist.">
+    <!-- Open Graph / Social Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eclatafrica.com/">
+    <meta property="og:title" content="E'clat Africa | Quiet Luxury">
+    <meta property="og:description" content="Effortless elegance, quiet radiance. Curated lip tones crafted for the modern minimalist.">
+    <meta property="og:image" content="https://image.pollinations.ai/prompt/A%20hyper-realistic%2C%20macro%20product%20shot%20of%20a%20bronze%20savannah%20sunset%20lip%20gloss%20bottle%20on%20bone%20white%20marble.%20Warm%20golden%20hour%20lighting.%20Minimalist%20luxury%20editorial%20aesthetic?width=1200&height=630&nologo=true">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.8em' font-size='90' font-family='Georgia, serif' font-style='italic' fill='%23C5A059'>L</text></svg>">
+    <style>
+        /* Import Google Fonts: Playfair Display for serif headings, Inter for clean sans-serif text, Caveat for personal notes */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Caveat:wght@400;500&display=swap');
+
+        :root {
+            --bg-cream: #FDFCF8;
+            --text-dark: #1A1A1A;
+            --text-muted: #5A5A5A;
+            --accent-gold: #9C8462;
+            --deep-gold: #C5A059;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Scroll Reveal Base Classes */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header / Nav (Glassmorphism & Sticky) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(253, 252, 248, 0.7); /* Subtle transparent cream */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(26, 26, 26, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em; /* Increased letter spacing */
+            text-transform: uppercase; /* Added uppercase */
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 2rem 2rem; /* Added top padding for fixed header */
+            overflow: hidden;
+        }
+
+        /* Cinematic Waving Kenyan Flag Background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%; left: -20%; right: -20%; bottom: -20%;
+            background: linear-gradient(
+                120deg, 
+                #000000 0%, #000000 25%, 
+                #FFFFFF 25%, #FFFFFF 28%, 
+                #BB0000 28%, #BB0000 55%, 
+                #FFFFFF 55%, #FFFFFF 58%, 
+                #006600 58%, #006600 100%
+            );
+            background-size: 300% 300%;
+            animation: flagWave 18s ease-in-out infinite alternate;
+            opacity: 0.3; /* Kept subtle to preserve quiet luxury */
+            z-index: 0;
+            filter: blur(20px);
+            will-change: transform, background-position;
+            transform: translateZ(0); /* Hardware acceleration for smooth mobile performance */
+        }
+
+        /* Subtle noise overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes flagWave {
+            0% { background-position: 0% 50%; transform: scale(1) rotate(0deg); }
+            50% { background-position: 100% 50%; transform: scale(1.05) rotate(3deg); }
+            100% { background-position: 0% 50%; transform: scale(1.1) rotate(-2deg); }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .kicker {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+        }
+
+        .headline {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 12vw, 8.5rem); /* Increased for more impact */
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .headline i {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--accent-gold);
+        }
+
+        .description {
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 480px;
+            line-height: 1.6;
+            margin-bottom: 3.5rem;
+        }
+
+        /* The "weighted and expensive" CTA Button */
+        .cta-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .flag-ribbon {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 334.8px;
+            height: 10px;
+            background: linear-gradient(to right, 
+                #000000 0%, #000000 25%, 
+                #FFFFFF 25%, #FFFFFF 30%, 
+                #BB0000 30%, #BB0000 70%, 
+                #FFFFFF 70%, #FFFFFF 75%, 
+                #006600 75%, #006600 100%);
+            z-index: 10;
+            border-radius: 2px;
+            animation: gentleWave 0s ease-in-out infinite alternate;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        @keyframes gentleWave {
+            0% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+            100% { transform: translateX(-50%) translateY(-2px) rotate(2deg); }
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* Space between icon and text */
+            background-color: var(--text-dark);
+            color: var(--bg-cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 1.35rem 3.5rem;
+            border: 1px solid var(--text-dark);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Slowed down transition */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08); /* Weighted shadow */
+        }
+
+        /* Hover effect for the CTA */
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--deep-gold);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Slowed down transition */
+            z-index: 0;
+        }
+
+        .cta-button span, .cta-button svg {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            color: var(--bg-cream);
+            border-color: var(--deep-gold);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.3); /* Adjusted shadow color to match deep gold */
+            transform: translateY(-2px);
+        }
+
+        .cta-button:hover::before {
+            transform: scaleY(1);
+        }
+
+        /* Subtle load-in animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Collection Section */
+        .collection-section {
+            padding: 8rem 2rem;
+            background-color: #FFFFFF; /* Pure white contrast */
+            position: relative;
+        }
+
+        .collection-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem;
+            background-color: #FFFFFF;
+            /* Combined reveal transition + hover transitions */
+            transition: opacity 0.8s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
+            /* Reset transition delay on hover so it responds instantly */
+            transition-delay: 0s !important; 
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            aspect-ratio: 3/4;
+            margin-bottom: 2.5rem;
+            position: relative;
+            background-color: var(--bg-cream); /* default */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Subtle gradient representations of the gloss shades */
+        .shade-clear { background: linear-gradient(135deg, #FDFDFD, #EFEFEF); }
+        .shade-bronze { background: linear-gradient(135deg, #E6C8B3, #C99372); }
+        .shade-berry { background: linear-gradient(135deg, #D8A7B1, #A55C6A); }
+        .shade-nude { background: linear-gradient(135deg, #EAD6C9, #B89078); }
+
+        .product-image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.05) 100%);
+            mix-blend-mode: overlay;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .product-shade {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-bottom: 2.5rem;
+        }
+
+        .purchase-bar {
+            width: 100%;
+            padding: 1.25rem 1rem; /* More forgiving tap target horizontally */
+            min-height: 56px; /* Ensuring minimum tap target height for iPhone */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: 1px solid var(--text-dark);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .purchase-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--text-dark);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 0;
+        }
+
+        .purchase-bar span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.5s ease;
+        }
+
+        .purchase-bar:hover {
+            border-color: var(--text-dark);
+        }
+
+        .purchase-bar:hover::before {
+            transform: scaleY(1);
+        }
+
+        .purchase-bar:hover span {
+            color: #FFFFFF;
+        }
+
+        /* Ingredients Section - High-end Editorial Blog Aesthetic */
+        .ingredients-section {
+            padding: 8rem 2rem;
+            background-color: #FFFFFF;
+            position: relative;
+        }
+
+        .ingredients-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+
+        .ingredients-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .ingredient-card {
+            flex: 1 1 300px;
+            max-width: 360px;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(26, 26, 26, 0.2); /* Thin dark line for editorial feel */
+            text-align: left;
+            transition: opacity 0.8s ease, transform 0.8s ease, border-color 0.5s ease;
+        }
+
+        .ingredient-card:hover {
+            border-top-color: var(--deep-gold);
+            /* Reset transition delay on hover so border change is instant */
+            transition-delay: 0s !important; 
+        }
+
+        .ingredient-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .ingredient-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .ingredient-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: #25D366; /* WhatsApp Green */
+            color: #FFFFFF;
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            z-index: 99;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-float svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.25rem 1.5rem;
+            }
+            .hero {
+                padding: 5rem 1.5rem 1.5rem 1.5rem;
+            }
+            .cta-button {
+                padding: 1.25rem 2.5rem;
+                width: 100%;
+                max-width: 300px;
+            }
+            .collection-section {
+                padding: 5rem 1.5rem;
+            }
+            .collection-grid {
+                /* This ensures cards stack 1 by 1 on mobile */
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin-top: 3rem;
+            }
+            .product-card {
+                padding: 2.5rem 1.5rem; /* Larger padding for mobile tap comfort */
+            }
+            .purchase-bar {
+                min-height: 60px; /* Even larger tap target height for mobile */
+                font-size: 0.85rem; /* Slightly larger text */
+            }
+            .ingredients-section {
+                padding: 5rem 1.5rem;
+            }
+            .ingredients-grid {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 3rem;
+            }
+            .ingredient-card {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            /* Compact WhatsApp button on mobile */
+            .whatsapp-float span {
+                display: none;
+            }
+            .whatsapp-float {
+                padding: 1rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
+                border-radius: 50%;
+            }
+            .whatsapp-float svg {
+                width: 24px;
+                height: 24px;
+                margin: 0;
+            }
+        }
+
+        /* Loyalty Dashboard Section */
+        .loyalty-section {
+            padding: 8rem 2rem;
+            background-color: var(--bg-cream);
+            position: relative;
+        }
+
+        .loyalty-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .loyalty-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2.5rem;
+            margin: 4rem auto 3rem auto;
+            max-width: 700px;
+            justify-items: center;
+        }
+
+        .sticker-slot {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 1px solid rgba(156, 132, 98, 0.3); /* Subtle gold border for empty slot */
+            position: relative;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sticker-slot:not(.filled)::before {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            border-radius: 50%;
+            background-color: var(--accent-gold);
+            opacity: 0.1;
+            animation: pulseSlot 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseSlot {
+            0% { transform: scale(0.8); opacity: 0.1; }
+            50% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(0.8); opacity: 0.1; }
+        }
+
+        .sticker {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08), inset 0 2px 6px rgba(255,255,255,0.6);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        
+        .sticker:hover {
+            transform: scale(1.05);
+        }
+
+        /* Glossy specular highlight */
+        .sticker::after {
+            content: '';
+            position: absolute;
+            top: 4%; left: 14%; right: 14%; bottom: 45%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 50% 50% 0 0;
+            pointer-events: none;
+        }
+
+        .sticker.bronze {
+            background: linear-gradient(135deg, #E6C8B3, #C99372);
+        }
+        
+        .sticker.berry {
+            background: linear-gradient(135deg, #D8A7B1, #A55C6A);
+        }
+
+        .rewards-description {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .rewards-tier {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .rewards-tier strong {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Glassmorphic Auth Modal */
+        .auth-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .auth-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .auth-modal-content {
+            background-color: var(--bg-cream);
+            width: 100%;
+            max-width: 440px;
+            padding: 3rem;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .auth-modal-overlay.visible .auth-modal-content {
+            transform: translateY(0);
+        }
+
+        .auth-close-btn {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+        .auth-close-btn:hover { color: var(--text-dark); }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(26,26,26,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .auth-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 2px;
+            background-color: var(--deep-gold);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background-color: transparent;
+            border: 1px solid rgba(26,26,26,0.2);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--deep-gold);
+        }
+
+        .auth-submit-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background-color: var(--text-dark);
+            color: var(--bg-cream);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .auth-submit-btn:hover {
+            background-color: var(--deep-gold);
+        }
+
+        .auth-error {
+            color: #BB0000;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            min-height: 1.2em;
+        }
+
+        /* Personal Footer & Social */
+        .personal-footer {
+            padding: 6rem 2rem 6rem 2rem;
+            background-color: var(--bg-cream);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .camera-icon {
+            color: var(--accent-gold);
+            margin-bottom: 0.25rem;
+            transition: transform 0.4s ease;
+        }
+
+        .social-container:hover .camera-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .social-container h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.85rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: 0.02em;
+            font-style: italic;
+        }
+
+        .social-container a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-container a:hover {
+            color: var(--accent-gold);
+        }
+
+        .footer-divider {
+            width: 40px;
+            height: 1px;
+            background-color: rgba(156, 132, 98, 0.3);
+            margin-bottom: 3rem;
+        }
+
+        .personal-note {
+            font-family: 'Caveat', cursive;
+            font-size: 2.25rem;
+            color: var(--text-dark);
+            max-width: 600px;
+            line-height: 1.4;
+            opacity: 0.85;
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .loyalty-section {
+                padding: 5rem 1.5rem;
+            }
+            .loyalty-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .loyalty-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+            }
+            .sticker-slot {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="fade-in">
+        <a href="#" class="logo">E'clat Africa</a>
+        <div class="nav-links-container" style="display: flex; gap: 1.5rem; align-items: center;">
+            <a href="#" class="nav-link auth-link" onclick="event.preventDefault(); createLoginModal();">Login / Sign Up</a>
+            <a href="#collection" id="shop-nav-link" class="nav-link">Shop/Duka</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="kicker fade-in delay-1">New Collection</div>
+            <h1 class="headline fade-in delay-2">Effortless elegance,<br><i>quiet</i> radiance.</h1>
+            <p class="description fade-in delay-3">Curated lip tones crafted for the modern minimalist. Pure hydration meets uncompromising luxury in every swipe.</p>
+            
+            <!-- Premium Checkout Button -->
+            <div class="cta-wrapper fade-in delay-3">
+                <div class="flag-ribbon"></div>
+                <a id="hero-checkout-btn" href="#collection" class="cta-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span>Secure Your Sample</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Section -->
+    <section id="collection" class="collection-section">
+        <div class="collection-container">
+            <div class="section-header">
+                <h2>The Inaugural Collection</h2>
+            </div>
+            
+            <div class="collection-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <img src="https://image.pollinations.ai/prompt/A%20hyper-realistic%2C%20macro%20product%20shot%20of%20the%20clear%20E%27clat%20Africa%20lip%20gloss%20bottle.%20The%20heavy%20glass%20bottle%20is%20identical%20to%20image_6.png%2C%20filled%20with%20crystalline%2C%20high-refractive%20index%20gloss.%20On%20the%20label%2C%20the%20name%20E%27clat%20Africa%20%28using%20the%20elegant%20serif%20and%20wide%206px%20kerning%20from%20image_0.png%29%20is%20at%20the%20top.%20Positioned%20directly%20below%20the%20name%2C%20centered%2C%20is%20the%20small%2C%20elegant%20Kenyan%20flag%20%28with%20its%20fine%20gold%20border%29.%20The%20bottle%20sits%20on%20a%20polished%20Bone%20White%20%28%23F9F6EE%29%20marble%20slab.%20Two%20unrefined%2C%20velvety%20Nilotica%20Shea%20nuts%20rest%20beside%20the%20base.%20The%20lighting%20is%20crisp%20and%20cool%2C%20suggesting%20a%20sophisticated%20urban%20night%2C%20making%20the%20clear%20gloss%20sparkle%20like%20a%20diamond.%20Style%3A%20Minimalist%20luxury%2C%20high-end%20editorial." alt="Nairobi Night" class="product-image-placeholder shade-clear" style="object-fit: cover;">
+                    <h3 class="product-title">Nairobi Night</h3>
+                    <span class="product-shade">Clear</span>
+                    <span class="product-price">3,500 KES</span>
+                    <a id="btn-nairobi-night" href="https://paystack.com/pay/luxe-sample" target="_blank" rel="noopener noreferrer" class="purchase-bar">
+                        <span>Nunua</span>
+                    </a>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image-placeholder shade-bronze"></div>
+                    <h3 class="product-title">Savannah Sunset</h3>
+                    <span class="product-shade">Bronze</span>
+                    <span class="product-price">3,500 KES</span>
+                    <a id="btn-savannah-sunset" href="https://paystack.com/pay/luxe-sample" target="_blank" rel="noopener noreferrer" class="purchase-bar">
+                        <span>Nunua</span>
+                    </a>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image-placeholder shade-berry"></div>
+                    <h3 class="product-title">Coastal Hibiscus</h3>
+                    <span class="product-shade">Berry</span>
+                    <span class="product-price">3,500 KES</span>
+                    <a id="btn-coastal-hibiscus" href="https://paystack.com/pay/luxe-sample" target="_blank" rel="noopener noreferrer" class="purchase-bar">
+                        <span>Nunua</span>
+                    </a>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image-placeholder shade-nude"></div>
+                    <h3 class="product-title">Swahili Spice</h3>
+                    <span class="product-shade">Nude</span>
+                    <span class="product-price">3,500 KES</span>
+                    <a id="btn-swahili-spice" href="https://paystack.com/pay/luxe-sample" target="_blank" rel="noopener noreferrer" class="purchase-bar">
+                        <span>Nunua</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ingredients Section -->
+    <section class="ingredients-section">
+        <div class="ingredients-container">
+            <div class="section-header">
+                <h2>Our Elements</h2>
+            </div>
+            
+            <div class="ingredients-grid">
+                <div class="ingredient-card">
+                    <span class="ingredient-number">01</span>
+                    <h3>Nilotica Shea</h3>
+                    <p>Sourced directly from the Nile Valley. Exceptionally rich in oleic acid for a softer, more luxurious melt-in texture that delivers profound hydration.</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <span class="ingredient-number">02</span>
+                    <h3>Baobab</h3>
+                    <p>The Tree of Life provides this nutrient-dense oil, brimming with antioxidants and omegas to protect the delicate skin barrier of your lips.</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <span class="ingredient-number">03</span>
+                    <h3>Marula</h3>
+                    <p>A weightless, highly stable oil that locks in moisture. Its high vitamin C content promotes a natural, lasting glow without any heavy residue.</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <span class="ingredient-number">04</span>
+                    <h3>Aloe Ferox</h3>
+                    <p>Wild-harvested from the Cape, this potent botanical offers superior soothing properties, instantly calming and repairing environmental stress.</p>
+                </div>
+                
+                <div class="ingredient-card">
+                    <span class="ingredient-number">05</span>
+                    <h3>Moringa</h3>
+                    <p>Known as the 'Miracle Tree', its oil is a powerhouse of cellular renewal, defending against free radicals and promoting a naturally plump appearance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loyalty Dashboard Section -->
+    <section class="loyalty-section">
+        <div class="loyalty-container">
+            <div class="section-header scroll-reveal">
+                <h2>Your Collective</h2>
+            </div>
+            
+            <div class="loyalty-grid scroll-reveal">
+                <div class="sticker-slot filled"><div class="sticker bronze"></div></div>
+                <div class="sticker-slot filled"><div class="sticker berry"></div></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+                <div class="sticker-slot"></div>
+            </div>
+
+            <div class="rewards-description scroll-reveal">
+                <p class="rewards-tier"><strong>6/12:</strong> Redeem for Two Glosses of Your Choice</p>
+                <p class="rewards-tier"><strong>12/12:</strong> Redeem for the Full 4-Flavor Collection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Footer -->
+    <footer class="personal-footer">
+        <div class="social-container scroll-reveal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="camera-icon">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <h3>Share your glow</h3>
+            <a href="https://instagram.com/luxe_africa" target="_blank" rel="noopener noreferrer">@luxe_africa</a>
+        </div>
+        <div class="footer-divider scroll-reveal"></div>
+        <p class="personal-note scroll-reveal">thankyou for shoping with us . shabby & steff , Founders</p>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/254707425282" target="_blank" rel="noopener noreferrer" class="whatsapp-float fade-in delay-3">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span>Chat with a Concierge</span>
+    </a>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once faded in
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Apply scroll-reveal class to elements and observe
+        document.querySelectorAll('.ingredient-card, .section-header, .product-card, .loyalty-grid, .rewards-description, .social-container, .footer-divider, .personal-note').forEach((el, index) => {
+            el.classList.add('scroll-reveal');
+            
+            // Stagger the delay slightly for a cascading grid effect
+            let stagger = (index % 4) * 0.15;
+            el.style.transitionDelay = `${stagger}s`;
+            
+            observer.observe(el);
+        });
+    </script>
+    
+    <!-- Supabase and Auth Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth-config.js"></script>
+</body>
+</html>

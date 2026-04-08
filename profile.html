@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | E'clat Africa</title>
+    <meta name="description" content="Access your collective and secure your sample.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Your Profile | E'clat Africa">
+    <meta property="og:description" content="Access your collective and secure your sample.">
+    <meta property="og:image" content="https://image.pollinations.ai/prompt/A%20hyper-realistic%2C%20macro%20product%20shot%20of%20a%20bronze%20savannah%20sunset%20lip%20gloss%20bottle%20on%20bone%20white%20marble.%20Warm%20golden%20hour%20lighting.%20Minimalist%20luxury%20editorial%20aesthetic?width=1200&height=630&nologo=true">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.8em' font-size='90' font-family='Georgia, serif' font-style='italic' fill='%23C5A059'>L</text></svg>">
+    <style>
+        /* Import Google Fonts: Playfair Display for serif headings, Inter for clean sans-serif text, Caveat for personal notes */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Caveat:wght@400;500&display=swap');
+
+        :root {
+            --bg-cream: #FDFCF8;
+            --text-dark: #1A1A1A;
+            --text-muted: #5A5A5A;
+            --accent-gold: #9C8462;
+            --deep-gold: #C5A059;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header / Nav (Glassmorphism & Sticky) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(253, 252, 248, 0.7); /* Subtle transparent cream */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(26, 26, 26, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .nav-links-container {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Profile Hero Section */
+        .profile-hero {
+            padding: 10rem 2rem 2rem 2rem; /* padding top for sticky header */
+            text-align: center;
+            background-color: #FFFFFF;
+        }
+
+        .profile-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .profile-hero p {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Loyalty Dashboard Section */
+        .loyalty-section {
+            padding: 4rem 2rem 8rem 2rem;
+            background-color: #FFFFFF;
+            position: relative;
+            flex: 1;
+        }
+
+        .loyalty-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .loyalty-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2.5rem;
+            margin: 4rem auto 3rem auto;
+            max-width: 700px;
+            justify-items: center;
+        }
+
+        .sticker-slot {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 1px solid rgba(156, 132, 98, 0.3); /* Subtle gold border for empty slot */
+            position: relative;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sticker-slot:not(.filled)::before {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            border-radius: 50%;
+            background-color: var(--accent-gold);
+            opacity: 0.1;
+            animation: pulseSlot 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseSlot {
+            0% { transform: scale(0.8); opacity: 0.1; }
+            50% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(0.8); opacity: 0.1; }
+        }
+
+        .sticker {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08), inset 0 2px 6px rgba(255,255,255,0.6);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        
+        .sticker:hover {
+            transform: scale(1.05);
+        }
+
+        /* Glossy specular highlight */
+        .sticker::after {
+            content: '';
+            position: absolute;
+            top: 4%; left: 14%; right: 14%; bottom: 45%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 50% 50% 0 0;
+            pointer-events: none;
+        }
+
+        /* Shade colors */
+        .sticker.clear { background: linear-gradient(135deg, #FDFDFD, #EFEFEF); }
+        .sticker.bronze { background: linear-gradient(135deg, #E6C8B3, #C99372); }
+        .sticker.berry { background: linear-gradient(135deg, #D8A7B1, #A55C6A); }
+        .sticker.nude { background: linear-gradient(135deg, #EAD6C9, #B89078); }
+
+        .rewards-description {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .rewards-tier {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .rewards-tier strong {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .section-header {
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.25rem 1.5rem;
+            }
+            .loyalty-section {
+                padding: 2rem 1.5rem 5rem 1.5rem;
+            }
+            .loyalty-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .loyalty-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+            }
+            .sticker-slot {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">E'clat Africa</a>
+        <div class="nav-links-container" id="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="#" class="nav-link auth-link" onclick="event.preventDefault(); createLoginModal();">Login / Sign Up</a>
+            <a href="index.html#collection" id="shop-nav-link" class="nav-link">Shop/Duka</a>
+        </div>
+    </header>
+
+    <div class="profile-hero">
+        <h1 id="user-greeting">Your Profile</h1>
+        <p>Welcome to your Luxe collective.</p>
+    </div>
+
+    <!-- Loyalty Dashboard Section -->
+    <section class="loyalty-section">
+        <div class="loyalty-container">
+            <div class="section-header">
+                <h2>Your Collective</h2>
+            </div>
+            
+            <div class="loyalty-grid" id="loyalty-grid">
+                <!-- 12 slots will be injected here via JS -->
+            </div>
+
+            <div class="rewards-description">
+                <p class="rewards-tier"><strong>6/12:</strong> Redeem for Two Glosses of Your Choice</p>
+                <p class="rewards-tier"><strong>12/12:</strong> Redeem for the Full 4-Flavor Collection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supabase and Auth Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (error || !session) {
+                // Not logged in, redirect to home
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const user = session.user;
+            document.getElementById('user-greeting').innerText = `Welcome, ${user.email}`;
+
+            // Fetch sticker count from profiles table
+            let stickerCount = 0;
+            try {
+                const { data, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('sticker_count')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (profileError) {
+                    console.log("No profile found or error fetching:", profileError);
+                } else if (data) {
+                    stickerCount = data.sticker_count || 0;
+                }
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+            }
+
+            // For now, visually populate the first two slots to represent their current purchase
+            stickerCount = 2;
+
+            renderStickers(stickerCount);
+        });
+
+        function renderStickers(count) {
+            const grid = document.getElementById('loyalty-grid');
+            grid.innerHTML = '';
+            
+            const maxStickers = 12;
+            const shades = ['bronze', 'berry', 'clear', 'nude'];
+            
+            for (let i = 0; i < maxStickers; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'sticker-slot';
+                
+                if (i < count) {
+                    slot.classList.add('filled');
+                    const sticker = document.createElement('div');
+                    // Pick shade based on index
+                    const shade = shades[i % shades.length];
+                    sticker.className = `sticker ${shade}`;
+                    slot.appendChild(sticker);
+                }
+                
+                grid.appendChild(slot);
+            }
+        }
+    </script>
+</body>
+</html>

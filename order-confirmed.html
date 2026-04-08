@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed | E'clat Africa</title>
+    <meta name="description" content="Your radiance is on the way.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Order Confirmed | E'clat Africa">
+    <meta property="og:description" content="Your radiance is on the way.">
+    <meta property="og:image" content="https://image.pollinations.ai/prompt/A%20hyper-realistic%2C%20macro%20product%20shot%20of%20a%20bronze%20savannah%20sunset%20lip%20gloss%20bottle%20on%20bone%20white%20marble.%20Warm%20golden%20hour%20lighting.%20Minimalist%20luxury%20editorial%20aesthetic?width=1200&height=630&nologo=true">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.8em' font-size='90' font-family='Georgia, serif' font-style='italic' fill='%23C5A059'>L</text></svg>">
+    <style>
+        /* Import Google Fonts: Playfair Display for serif headings, Inter for clean sans-serif text, Caveat for personal notes */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Caveat:wght@400;500&display=swap');
+
+        :root {
+            --bg-cream: #FDFCF8;
+            --text-dark: #1A1A1A;
+            --text-muted: #5A5A5A;
+            --accent-gold: #9C8462;
+            --deep-gold: #C5A059;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Scroll Reveal Base Classes */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header / Nav */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(253, 252, 248, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(26, 26, 26, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Confirmation Section */
+        .confirmation-section {
+            padding: 12rem 2rem 6rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .kicker {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .confirmation-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--text-dark);
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .confirmation-headline i {
+            font-style: italic;
+            color: var(--accent-gold);
+        }
+
+        .letter-message {
+            max-width: 540px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .signature {
+            font-family: 'Caveat', cursive;
+            font-size: 2.25rem;
+            color: var(--text-dark);
+            margin-bottom: 5rem;
+        }
+
+        /* What's Next Section */
+        .whats-next-wrapper {
+            width: 100%;
+            max-width: 900px;
+            border-top: 1px solid rgba(26, 26, 26, 0.1);
+            padding-top: 4rem;
+            margin-top: 2rem;
+        }
+
+        .whats-next-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-dark);
+            margin-bottom: 3rem;
+        }
+
+        .steps-grid {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 3rem;
+            text-align: left;
+        }
+
+        .step-card {
+            flex: 1;
+            position: relative;
+        }
+
+        .step-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(156, 132, 98, 0.3);
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-style: italic;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 1.25rem 3rem;
+            border: 1px solid var(--text-dark);
+            transition: all 0.5s ease;
+            margin-top: 5rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--text-dark);
+            color: var(--bg-cream);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1.25rem 1.5rem; }
+            .confirmation-section { padding: 8rem 1.5rem 5rem 1.5rem; }
+            .steps-grid {
+                flex-direction: column;
+                gap: 2.5rem;
+            }
+            .cta-button { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="scroll-reveal">
+        <a href="index.html" class="logo">E'clat Africa</a>
+        <div class="nav-links-container" style="display: flex; gap: 1.5rem; align-items: center;">
+            <a href="profile.html" class="nav-link">Profile</a>
+        </div>
+    </header>
+
+    <section class="confirmation-section">
+        <div class="kicker scroll-reveal delay-1">Order Confirmed</div>
+        <h1 class="confirmation-headline scroll-reveal delay-2">Your <i>Radiance</i> is<br>on the Way.</h1>
+        
+        <p class="letter-message scroll-reveal delay-3">
+            Thank you for welcoming E'clat Africa into your daily ritual. Every gloss is a celebration of our continent's rich botanical heritage. We are deeply honored to have your support as an independent Kenyan brand. Your order has been securely received and is now being prepared with the utmost care.
+        </p>
+        
+        <span class="signature scroll-reveal delay-3">shabby & steff</span>
+
+        <div class="whats-next-wrapper scroll-reveal delay-4">
+            <h2 class="whats-next-title">What's Next</h2>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <span class="step-number">STEP 01</span>
+                    <h3 class="step-title">Small-Batch Infusion</h3>
+                </div>
+                <div class="step-card">
+                    <span class="step-number">STEP 02</span>
+                    <h3 class="step-title">Premium Courier Dispatch</h3>
+                </div>
+                <div class="step-card">
+                    <span class="step-number">STEP 03</span>
+                    <h3 class="step-title">Arrival in 1-2 Business Days</h3>
+                </div>
+            </div>
+        </div>
+
+        <a href="profile.html" class="cta-button scroll-reveal delay-4">View Your Collective</a>
+    </section>
+
+</body>
+</html>
