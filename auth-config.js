@@ -1,3 +1,5 @@
+// Wrap everything in a block scope to prevent "already declared" variable conflicts
+{
 // auth-config.js
 // Placeholders for your Supabase Project details. 
 // Replace these with your actual Supabase URL and Anon Key from your project settings.
@@ -312,3 +314,12 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
     setupCheckoutGuards();
 });
+
+    // Expose functions to the global window object so HTML onClick handlers still work
+    window.createLoginModal = createLoginModal;
+    window.closeLoginModal = closeLoginModal;
+    window.switchAuthTab = switchAuthTab;
+    window.signInWithGoogle = signInWithGoogle;
+    window.handleAuthSubmit = handleAuthSubmit;
+    window.handleLogout = handleLogout;
+}

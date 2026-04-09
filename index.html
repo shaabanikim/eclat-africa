@@ -973,13 +973,13 @@
             <!-- Premium Checkout Button -->
             <div class="cta-wrapper fade-in delay-3">
                 <div class="flag-ribbon"></div>
-                <a id="hero-checkout-btn" href="#collection" class="cta-button">
+                <button id="hero-checkout-btn" class="cta-button buy-button" data-amount="1" data-product="The Inaugural Collection" style="cursor: pointer;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg>
                     <span>Secure Your Sample</span>
-                </a>
+                </button>
             </div>
         </div>
     </section>
@@ -1158,5 +1158,87 @@
     <!-- Supabase and Auth Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="auth-config.js"></script>
+
+    <script>
+    (function() {
+        console.log("🚀 M-Pesa Engine: High-Priority Mode");
+
+        function attachMpesa() {
+            // This finds EVERYTHING: the class, the ID, and even buttons with specific text
+            const targets = document.querySelectorAll('.buy-button, #secure-button, .purchase-bar');
+            
+            targets.forEach(btn => {
+                // Only attach if we haven't already
+                if (btn.dataset.mpesaAttached) return;
+                
+                btn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    
+                    const phone = prompt("Enter M-Pesa Number (254...):", "2547...");
+                    if (phone) {
+                        alert("Sending STK Push to " + phone + " for E'clat Luxury...");
+                        
+                        const originalText = this.innerText;
+                        this.innerText = "Connecting...";
+                        
+                        try {
+                            const response = await fetch('/.netlify/functions/mpesa-push', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    phone: phone.trim(),
+                                    amount: this.getAttribute('data-amount')
+                                })
+                            });
+
+                            if (response.ok) {
+                                alert("✅ STK Push Sent!");
+                            } else {
+                                alert("❌ API Error. Check Netlify Logs.");
+                            }
+                        } catch (err) {
+                            alert("Connection failed.");
+                        } finally {
+                            this.innerText = originalText;
+                        }
+                    }
+                }, true); // The 'true' here makes it extra aggressive
+                
+                btn.dataset.mpesaAttached = "true";
+                btn.style.cursor = "pointer"; // Visual cue it's ready
+            });
+        }
+
+        // Run now, and keep checking every 2 seconds in case the page reloads parts
+        attachMpesa();
+        setInterval(attachMpesa, 2000);
+    })();
+    </script>
+</body>
+</html>                     }
+                        } catch (err) {
+                            alert("Connection failed.");
+                        } finally {
+                            this.innerText = "Nunua";
+                            this.innerText = originalText;
+                        }
+                    }
+                });
+                }, true); // The 'true' here makes it extra aggressive
+                
+                btn.dataset.mpesaAttached = "true";
+                btn.style.cursor = "pointer"; // Visual cue it's ready
+            });
+        }
+
+        // Run it immediately and again after 1 second just in case
+        initMpesa();
+        setTimeout(initMpesa, 1000);
+        // Run now, and keep checking every 2 seconds in case the page reloads parts
+        attachMpesa();
+        setInterval(attachMpesa, 2000);
+    })();
+    </script>
 </body>
 </html>
