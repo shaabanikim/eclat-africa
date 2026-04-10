@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Collective | E'clat Africa</title>
+    
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-cream: #F9F6EE;
+            --text-dark: #1C1C1C;
+            --text-muted: #666666;
+            --gold: #CC7722;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1620023419951-6944e542cc42?q=80&w=2000&auto=format&fit=crop') center center / cover no-repeat;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Minimalist Header */
+        header {
+            padding: 2.5rem 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(28, 28, 28, 0.05);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6rem 5%;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 3.5rem;
+            color: var(--text-dark);
+        }
+
+        /* Loyalty Dashboard */
+        .loyalty-dashboard {
+            width: 100%;
+            margin-bottom: 5rem;
+        }
+
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto 3.5rem auto;
+        }
+
+        .slot {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1px solid rgba(28, 28, 28, 0.1);
+            background-color: rgba(255, 255, 255, 0.4);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .slot.empty {
+            animation: pulse-slot 3s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes pulse-slot {
+            0% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02), 0 0 0 0 rgba(204, 119, 34, 0.2); }
+            50% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02), 0 0 0 10px rgba(204, 119, 34, 0); }
+            100% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02), 0 0 0 0 rgba(204, 119, 34, 0); }
+        }
+
+        .sticker {
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 -2px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Glossy Reflection Effect */
+        .sticker::after {
+            content: '';
+            position: absolute;
+            top: 8%;
+            left: 15%;
+            width: 70%;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .sticker-bronze { background: linear-gradient(135deg, #E59440, #CC7722); }
+        .sticker-berry { background: linear-gradient(135deg, #B55B6D, #8C3A4B); }
+
+        .rewards-tiers {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            align-items: center;
+        }
+
+        .tier {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tier-count {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--gold);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        /* Ribbon wrapper for Buttons */
+        .ribbon-btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            transition: transform 0.4s ease;
+        }
+
+        .ribbon-btn-wrapper.inline-wrapper {
+            display: inline-flex;
+            width: max-content;
+        }
+
+        .kenyan-ribbon {
+            height: 1.5rem;
+            background: linear-gradient(to bottom, #000000 28%, #FFFFFF 28% 34%, #990000 34% 66%, #FFFFFF 66% 72%, #006600 72%);
+            border: 1px solid #A0522D;
+            border-bottom: none;
+            transition: border-color 0.4s ease;
+        }
+
+        .ribbon-btn-wrapper:hover {
+            transform: translateY(-2px);
+        }
+
+        .ribbon-btn-wrapper:hover .concierge-btn {
+            transform: none; /* Prevent double-translating */
+        }
+
+        .ribbon-btn-wrapper:hover .kenyan-ribbon {
+            border-color: var(--gold);
+        }
+
+        /* Elegant Button */
+        .concierge-btn {
+            display: inline-block;
+            background-color: #A0522D;
+            color: var(--bg-cream);
+            padding: 1.25rem 3.5rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            border: 1px solid #A0522D;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concierge-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .concierge-btn:hover::after {
+            left: 100%;
+        }
+
+        .concierge-btn:hover {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            color: var(--bg-cream);
+            box-shadow: 0 6px 15px rgba(204, 119, 34, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sticker-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.25rem;
+                max-width: 400px;
+            }
+
+            .tier {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            
+            main {
+                padding-top: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">E'clat Africa</a>
+    </header>
+
+    <main>
+        <div class="loyalty-dashboard">
+            <h1>Your Collective</h1>
+            
+            <div class="sticker-grid">
+                <div class="slot" id="slot-1"><div class="sticker sticker-bronze"></div></div>
+                <div class="slot" id="slot-2"><div class="sticker sticker-berry"></div></div>
+                <div class="slot empty" id="slot-3"></div>
+                <div class="slot empty" id="slot-4"></div>
+                <div class="slot empty" id="slot-5"></div>
+                <div class="slot empty" id="slot-6"></div>
+                <div class="slot empty" id="slot-7"></div>
+                <div class="slot empty" id="slot-8"></div>
+                <div class="slot empty" id="slot-9"></div>
+                <div class="slot empty" id="slot-10"></div>
+                <div class="slot empty" id="slot-11"></div>
+                <div class="slot empty" id="slot-12"></div>
+            </div>
+
+            <div class="rewards-tiers">
+                <div class="tier"><span class="tier-count">6/12 :</span> Redeem for Two Glosses of Your Choice</div>
+                <div class="tier"><span class="tier-count">12/12 :</span> Redeem for the Full 4-Flavor Collection</div>
+            </div>
+        </div>
+
+        <div class="ribbon-btn-wrapper inline-wrapper">
+            <div class="kenyan-ribbon"></div>
+            <a href="https://wa.me/254707425282" target="_blank" rel="noopener noreferrer" class="concierge-btn">Message our Concierge</a>
+        </div>
+    </main>
+
+</body>
+</html>
