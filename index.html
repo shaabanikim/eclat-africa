@@ -700,6 +700,40 @@
         .auth-separator::before { margin-right: 1em; }
         .auth-separator::after { margin-left: 1em; }
 
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 100%; max-width: 400px;
+            height: 100vh;
+            background-color: var(--bg-cream);
+            z-index: 1005;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; padding: 3rem 2.5rem;
+        }
+        .cart-sidebar.active { right: 0; }
+        .cart-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 2rem; font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--text-dark);
+        }
+        .close-cart {
+            background: none; border: none; font-size: 2.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; line-height: 1;
+        }
+        .close-cart:hover { color: var(--gold); }
+        .cart-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+        .cart-item { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid rgba(28, 28, 28, 0.1); padding-bottom: 1rem; }
+        .cart-item-info { display: flex; flex-direction: column; gap: 0.35rem; }
+        .cart-item-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text-dark); }
+        .cart-item-price { font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+        .cart-item-remove { font-size: 0.75rem; color: var(--text-muted); cursor: pointer; border: none; background: none; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; text-align: left; text-decoration: underline;}
+        .cart-item-remove:hover { color: #990000; }
+        .cart-footer { margin-top: 2rem; border-top: 1px solid rgba(28, 28, 28, 0.1); padding-top: 1.5rem; }
+        .cart-total {
+            display: flex; justify-content: space-between; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--text-dark);
+        }
+        .cart-empty-msg { text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-top: 2rem; font-style: italic; }
+
         /* Footer */
         .site-footer {
             padding: 4rem 5%;
@@ -842,6 +876,11 @@
                 font-size: 1.1rem;
             }
 
+            #nav-greeting {
+                margin-left: 0 !important;
+                margin-bottom: 0.5rem;
+            }
+
             .featured-product {
                 flex-direction: column;
                 gap: 3rem;
@@ -904,11 +943,12 @@
                 </svg>
             </button>
             <a href="#" class="mobile-only">Home</a>
+            <span id="nav-greeting" style="color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; display: none; margin-left: 2.5rem; font-size: 1.1rem;"></span>
             <a href="#shop">Shop</a>
             <a href="#ingredients">Our Story</a>
             <a href="#" id="nav-signin">Sign In</a>
             <a href="rewards.html">Rewards</a>
-            <a href="#cart">Cart (0)</a>
+            <a href="#cart" class="cart-counter-text">Cart (0)</a>
         </nav>
     </header>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -972,7 +1012,7 @@
                 <p>Our signature deep maroon gloss delivers a glass-like finish that catches the light from every angle. Infused with Nilotica Shea and Baobab oil, it provides lasting hydration without the stickiness. Wear it bare for a rich wash of color, or layer it over your favorite lip color for amplified dimension.</p>
                 <div class="ribbon-btn-wrapper inline-wrapper">
                     <div class="kenyan-ribbon"></div>
-                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="payWithPaystack('Nairobi Night', 3500)">Purchase</a>
+                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addToCart('Nairobi Night', 3500)">Purchase</a>
                 </div>
                 <a href="https://wa.me/254707425282" id="wa-buy-featured-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
             </div>
@@ -991,7 +1031,7 @@
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="payWithPaystack('Nairobi Night', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addToCart('Nairobi Night', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1005,7 +1045,7 @@
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-savannah" class="product-btn" onclick="payWithPaystack('Savannah Sunset', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-savannah" class="product-btn" onclick="addToCart('Savannah Sunset', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-savannah" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1018,7 +1058,7 @@
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-coastal" class="product-btn" onclick="payWithPaystack('Coastal Hibiscus', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-coastal" class="product-btn" onclick="addToCart('Coastal Hibiscus', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-coastal" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1031,7 +1071,7 @@
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-swahili" class="product-btn" onclick="payWithPaystack('Swahili Spice', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-swahili" class="product-btn" onclick="addToCart('Swahili Spice', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-swahili" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1043,7 +1083,7 @@
                     <p class="product-price">10,000 KES</p>
                     <div class="ribbon-btn-wrapper inline-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="payWithPaystack('The Complete Collection', 10000)">Get the Whole Collection</a>
+                        <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="addToCart('The Complete Collection', 10000)">Get the Whole Collection</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-complete" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1059,6 +1099,27 @@
             </div>
         </section>
     </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <span>Your Cart</span>
+            <button class="close-cart" id="closeCartBtn">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <div class="cart-empty-msg">Your cart is currently empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotalAmount">0 KES</span>
+            </div>
+            <div class="ribbon-btn-wrapper grid-wrapper">
+                <div class="kenyan-ribbon"></div>
+                <button class="product-btn" id="checkoutBtn" onclick="checkoutCart()" style="cursor: pointer; width: 100%;">Checkout Securely</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="footer-socials">
@@ -1176,6 +1237,7 @@
         const authPassword = document.getElementById('authPassword');
         const authMessage = document.getElementById('authMessage');
         const googleSignInBtn = document.getElementById('googleSignInBtn');
+        const navGreeting = document.getElementById('nav-greeting');
         
         let isSignUp = false; // State tracker
 
@@ -1201,8 +1263,13 @@
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 navSignin.textContent = 'Sign Out';
+                // Get user's name from Google, or fallback to the first part of their email
+                const userName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+                navGreeting.textContent = `Welcome, ${userName}`;
+                navGreeting.style.display = 'inline-block';
             } else {
                 navSignin.textContent = 'Sign In';
+                navGreeting.style.display = 'none';
             }
         }
         checkUser();
@@ -1267,27 +1334,138 @@
     <!-- Paystack Inline Checkout Script -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
-        function payWithPaystack(productName, amountKES) {
-            // A customer email is required. For now, we'll use a placeholder.
-            // In a real application, you would get this from a form.
-            const customerEmail = "customer@example.com"; 
-            const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
+        let cart = [];
+
+        function addToCart(productName, price) {
+            cart.push({ productName, price });
+            updateCartUI();
+            openCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotalAmount');
+            const counters = document.querySelectorAll('.cart-counter-text');
             
-            // The amount should be in the smallest currency unit. 
-            // For KES, 3500 KES = 350000.
-            const amountInSmallestUnit = amountKES * 100;
+            counters.forEach(c => c.textContent = `Cart (${cart.length})`);
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="cart-empty-msg">Your cart is currently empty.</div>';
+                totalEl.textContent = '0 KES';
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <span class="cart-item-title">${item.productName}</span>
+                            <span class="cart-item-price">${item.price.toLocaleString()} KES</span>
+                            <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+            totalEl.textContent = `${total.toLocaleString()} KES`;
+        }
+
+        const cartSidebar = document.getElementById('cartSidebar');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+
+        function openCart() {
+            cartSidebar.classList.add('active');
+            document.getElementById('sidebarOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (document.getElementById('navLinks').classList.contains('active')) {
+                document.getElementById('navLinks').classList.remove('active');
+            }
+        }
+
+        function closeCart() {
+            cartSidebar.classList.remove('active');
+            if (!document.getElementById('navLinks').classList.contains('active')) {
+                document.getElementById('sidebarOverlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        closeCartBtn.addEventListener('click', closeCart);
+        document.getElementById('sidebarOverlay').addEventListener('click', closeCart);
+
+        document.querySelectorAll('a[href="#cart"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openCart();
+            });
+        });
+
+        async function checkoutCart() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            
+            if (!session) {
+                document.getElementById('authTitle').textContent = "Sign In to Purchase";
+                document.getElementById('authSubtitle').textContent = "Please sign in or create an account to complete your order.";
+                closeCart(); // Hide the cart to focus on login
+                document.getElementById('authModal').classList.add('active');
+                return;
+            }
+
+            const customerEmail = session.user.email; 
+            const paystackPublicKey = "pk_live_YOUR_ACTUAL_LIVE_KEY_HERE";
+            
+            const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
+            const amountInSmallestUnit = totalAmountKES * 100;
+            
+            const orderSummary = cart.map(item => item.productName).join(', ');
 
             let handler = PaystackPop.setup({
                 key: paystackPublicKey,
                 email: customerEmail,
                 amount: amountInSmallestUnit,
                 currency: 'KES',
-                ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference.
+                ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1),
                 metadata: {
-                    product_name: productName,
+                    custom_fields: [
+                        {
+                            display_name: "Order Summary",
+                            variable_name: "order_summary",
+                            value: orderSummary
+                        }
+                    ]
                 },
-                // On successful payment, Paystack will redirect to this URL
-                callback: function(response){
+                callback: async function(response){
+                    // Save purchases to the Supabase database
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        const purchasesToInsert = [];
+                        cart.forEach(item => {
+                            if (item.productName === 'The Complete Collection') {
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Nairobi Night', amount: 2500 });
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Savannah Sunset', amount: 2500 });
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Coastal Hibiscus', amount: 2500 });
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Swahili Spice', amount: 2500 });
+                            } else {
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: item.productName, amount: item.price });
+                            }
+                        });
+                        await supabaseClient.from('purchases').insert(purchasesToInsert);
+                    }
+                    
+                    cart = []; // Empty the cart
+                    updateCartUI();
                     window.location.href = 'order-confirmed.html?reference=' + response.reference;
                 },
                 onClose: function(){
