@@ -70,6 +70,49 @@
             color: var(--text-muted);
         }
 
+        .mobile-menu-btn {
+            display: none;
+            cursor: pointer;
+            color: var(--text-dark);
+            align-items: center;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        .close-sidebar {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-sidebar:hover {
+            color: var(--gold);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(28, 28, 28, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* Split Hero Section */
         .hero {
             display: flex;
@@ -761,12 +804,42 @@
                 max-width: 100%;
             }
 
-            .nav-links {
-                display: none; /* Hidden on mobile for minimalism */
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .mobile-only {
+                display: block;
             }
             
-            header {
-                justify-content: center;
+            a.mobile-only {
+                display: inline-block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: var(--bg-cream);
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 6rem 2.5rem;
+                gap: 2rem;
+                transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                z-index: 1001;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                font-size: 1.1rem;
             }
 
             .featured-product {
@@ -816,7 +889,21 @@
 
     <header>
         <div class="logo">E'clat Africa</div>
-        <nav class="nav-links">
+        <div class="mobile-menu-btn" id="mobileMenuBtn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <button class="close-sidebar mobile-only" id="closeSidebarBtn">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <a href="#" class="mobile-only">Home</a>
             <a href="#shop">Shop</a>
             <a href="#ingredients">Our Story</a>
             <a href="#" id="nav-signin">Sign In</a>
@@ -824,6 +911,7 @@
             <a href="#cart">Cart (0)</a>
         </nav>
     </header>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <main>
         <section class="hero">
@@ -1039,6 +1127,35 @@
             document.querySelectorAll('.fade-in-section').forEach((el) => {
                 observer.observe(el);
             });
+        });
+    </script>
+
+    <!-- Sidebar Toggle Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            navLinks.classList.add('active');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevents the background from scrolling
+        }
+
+        function closeSidebar() {
+            navLinks.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // Automatically close the sidebar when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeSidebar);
         });
     </script>
 
