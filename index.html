@@ -30,6 +30,7 @@
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         /* Minimalist Header */
@@ -56,7 +57,12 @@
             font-weight: 500;
         }
 
-        .nav-links a {
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .desktop-nav a {
             text-decoration: none;
             color: var(--text-dark);
             font-size: 0.8rem;
@@ -66,15 +72,91 @@
             transition: color 0.3s ease;
         }
 
-        .nav-links a:hover {
+        .header-cart {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-left: 2.5rem;
+            transition: color 0.3s ease;
+        }
+        .header-cart:hover { color: var(--text-muted); }
+
+        .desktop-nav a:hover {
             color: var(--text-muted);
         }
 
+        .sidebar-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 320px;
+            height: 100vh;
+            background-color: var(--bg-cream);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 6rem 2.5rem;
+            gap: 2rem;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1001;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-nav.active {
+            right: 0;
+        }
+
+        .sidebar-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            color: var(--gold);
+        }
+
+        .sidebar-nav a.is-profile {
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .profile-pic-nav {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--gold);
+            vertical-align: middle;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar-nav .profile-pic-nav {
+            width: 48px;
+            height: 48px;
+            border-width: 2px;
+        }
+
+        .profile-pic-nav:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(204, 119, 34, 0.2);
+        }
+
         .mobile-menu-btn {
-            display: none;
+            display: flex;
             cursor: pointer;
             color: var(--text-dark);
             align-items: center;
+            margin-left: 2.5rem;
         }
 
         .mobile-only {
@@ -163,7 +245,7 @@
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 7vw, 7.5rem);
+            font-size: clamp(2.5rem, 8vw, 7.5rem);
             font-weight: 400;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -877,6 +959,13 @@
 
         /* Mobile Responsiveness */
         @media (max-width: 900px) {
+            .logo {
+                font-size: 1.15rem;
+                letter-spacing: 3px;
+            }
+            .mobile-menu-btn, .header-cart {
+                margin-left: 1.25rem;
+            }
             .hero {
                 flex-direction: column-reverse;
                 justify-content: center;
@@ -921,38 +1010,17 @@
                 display: inline-block;
             }
 
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background-color: var(--bg-cream);
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 6rem 2.5rem;
-                gap: 2rem;
-                transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                z-index: 1001;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            .desktop-nav {
+                display: none;
             }
-
-            .nav-links.active {
-                right: 0;
+            .ingredients-section, .featured-product, .collection-section, .limited-edition-wrapper, .loyalty-preview {
+                padding: 4rem 5%;
             }
-
-            .nav-links a {
-                margin-left: 0;
-                font-size: 1.1rem;
+            .product-card {
+                padding: 3rem 1.5rem 2rem;
             }
-
-            .nav-links a.is-profile {
-                order: -1; /* Move to the top of the mobile menu */
-                color: var(--gold);
-                font-family: 'Playfair Display', serif;
-                font-style: italic;
-                margin-bottom: 0.5rem;
+            .full-collection-card {
+                padding: 3rem 1.5rem;
             }
 
             .featured-product {
@@ -978,6 +1046,9 @@
             .collection-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+            }
+            .auth-modal-content {
+                padding: 2.5rem 1.5rem;
             }
 
             .collab-card {
@@ -1021,27 +1092,33 @@
 
     <header>
         <div class="logo">E'clat Africa</div>
-        <div class="mobile-menu-btn" id="mobileMenuBtn">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
+        <div class="header-right">
+            <nav class="desktop-nav">
+                <a href="#shop">Shop</a>
+                <a href="#" id="nav-signin">Sign In</a>
+            </nav>
+            <a href="#cart" class="header-cart cart-counter-text">Cart (0)</a>
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </div>
         </div>
-        <nav class="nav-links" id="navLinks">
-            <button class="close-sidebar mobile-only" id="closeSidebarBtn">
+        <nav class="sidebar-nav" id="navLinks">
+            <button class="close-sidebar" id="closeSidebarBtn">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
-            <a href="index.html" class="mobile-only">Home</a>
-            <a href="#shop">Shop</a>
+            <a href="index.html">Home</a>
+            <a href="#shop" class="mobile-only">Shop</a>
             <a href="#ingredients">Our Story</a>
-        <a href="#limited-edition">Limited</a>
-            <a href="#" id="nav-signin">Sign In</a>
+            <a href="#limited-edition">Limited</a>
             <a href="rewards.html">Rewards</a>
-            <a href="#cart" class="cart-counter-text">Cart (0)</a>
+            <a href="#" id="sidebar-signin" class="mobile-only">Sign In</a>
         </nav>
     </header>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -1346,7 +1423,6 @@
     <script>
         // Modal UI Logic
         const authModal = document.getElementById('authModal');
-        const navSignin = document.getElementById('nav-signin');
         const closeModal = document.getElementById('closeAuthModal');
         const authToggleLink = document.getElementById('authToggleLink');
         const authTitle = document.getElementById('authTitle');
@@ -1381,15 +1457,23 @@
         // Check session on load
         async function checkUser() {
             const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                navSignin.textContent = 'Profile';
-                navSignin.href = 'account.html';
-                navSignin.classList.add('is-profile');
-            } else {
-                navSignin.textContent = 'Sign In';
-                navSignin.href = '#';
-                navSignin.classList.remove('is-profile');
-            }
+            const signinBtns = document.querySelectorAll('#nav-signin, #sidebar-signin');
+            signinBtns.forEach(btn => {
+                if (session) {
+                    btn.textContent = 'Profile';
+                    const userName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+                    // Try to get Google avatar, or fallback to an auto-generated initial avatar matching the brand
+                    const avatarUrl = session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=F9F6EE&color=CC7722&bold=true`;
+                    
+                    btn.innerHTML = `<img src="${avatarUrl}" alt="${userName}" class="profile-pic-nav" title="Go to Account">`;
+                    btn.href = 'account.html';
+                    btn.classList.add('is-profile');
+                } else {
+                    btn.textContent = 'Sign In';
+                    btn.href = '#';
+                    btn.classList.remove('is-profile');
+                }
+            });
         }
         checkUser();
 
@@ -1398,12 +1482,15 @@
             checkUser();
         });
 
-        navSignin.addEventListener('click', async (e) => {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (!session) {
-                e.preventDefault();
-                authModal.classList.add('active');
-            }
+        document.querySelectorAll('#nav-signin, #sidebar-signin').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    e.preventDefault();
+                    authModal.classList.add('active');
+                    closeSidebar(); // ensure sidebar closes to reveal the modal
+                }
+            });
         });
 
         // Handle Google Sign In
@@ -1590,130 +1677,6 @@
                             display_name: "Shipping Address",
                             variable_name: "shipping_address",
                             value: profile && profile.shipping_address ? profile.shipping_address : "No address provided"
-                        }
-                    ]
-                },
-                callback: async function(response){
-                    // Save purchases to the Supabase database
-                    const { data: { session } } = await supabaseClient.auth.getSession();
-                    if (session) {
-                        const purchasesToInsert = [];
-                        cart.forEach(item => {
-                            if (item.productName === 'The Complete Collection') {
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Nairobi Night', amount: 2500 });
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Savannah Sunset', amount: 2500 });
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Coastal Hibiscus', amount: 2500 });
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Swahili Spice', amount: 2500 });
-                            } else {
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: item.productName, amount: item.price });
-                            }
-                        });
-                        await supabaseClient.from('purchases').insert(purchasesToInsert);
-                    }
-                    
-                    cart = []; // Empty the cart
-                    saveCart(); // Save the empty cart state
-                    updateCartUI(); // Visually clear the cart
-                    window.location.href = 'order-confirmed.html?reference=' + response.reference;
-                },
-                onClose: function(){
-                    console.log('Payment window closed.');
-                }
-            });
-            handler.openIframe();
-        }
-    </script>
-
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/254707425282" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-        <span class="whatsapp-text">Chat with a Concierge</span>
-    </a>
-</body>
-</html> function openCart() {
-            cartSidebar.classList.add('active');
-            document.getElementById('sidebarOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            if (document.getElementById('navLinks').classList.contains('active')) {
-                document.getElementById('navLinks').classList.remove('active');
-            }
-        }
-
-        function closeCart() {
-            cartSidebar.classList.remove('active');
-            if (!document.getElementById('navLinks').classList.contains('active')) {
-                document.getElementById('sidebarOverlay').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        closeCartBtn.addEventListener('click', closeCart);
-        document.getElementById('sidebarOverlay').addEventListener('click', closeCart);
-
-        document.querySelectorAll('a[href="#cart"]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openCart();
-            });
-        });
-
-        async function checkoutCart() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            
-            if (!session) {
-                document.getElementById('authTitle').textContent = "Sign In to Purchase";
-                document.getElementById('authSubtitle').textContent = "Please sign in or create an account to complete your order.";
-                closeCart(); // Hide the cart to focus on login
-                document.getElementById('authModal').classList.add('active');
-                return;
-            }
-
-            const customerEmail = session.user.email; 
-            // Using your test key so the checkout works during testing! Swap to pk_live_ when you launch.
-            const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
-            
-            const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
-            const amountInSmallestUnit = totalAmountKES * 100;
-            
-            const orderSummary = cart.map(item => item.productName).join(', ');
-
-            // Fetch user profile to pass shipping details to Paystack
-            const { data: profile } = await supabaseClient
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-
-            let handler = PaystackPop.setup({
-                key: paystackPublicKey,
-                email: customerEmail,
-                phone: profile ? profile.phone : '',
-                amount: amountInSmallestUnit,
-                currency: 'KES',
-                ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1),
-                metadata: {
-                    custom_fields: [
-                        {
-                            display_name: "Order Summary",
-                            variable_name: "order_summary",
-                            value: orderSummary
-                        },
-                        {
-                            display_name: "Shipping Address",
-                            variable_name: "shipping_address",
-                            value: profile && profile.shipping_address ? profile.shipping_address : "No address provided"
-                        },
-                        {
-                            display_name: "County",
-                            variable_name: "county",
-                            value: profile && profile.county ? profile.county : "No county provided"
                         }
                     ]
                 },

@@ -25,6 +25,7 @@
             color: var(--text-dark);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         /* Minimalist Header */
@@ -130,6 +131,44 @@
             font-weight: 400;
         }
 
+        /* Avatar Upload */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+        .avatar-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            cursor: pointer;
+        }
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .avatar-container:hover .avatar-overlay { opacity: 1; }
+        .avatar-loading { font-size: 0.8rem; color: var(--gold); margin-top: 0.75rem; font-style: italic; display: none; }
+
         .btn:hover {
             background-color: var(--gold);
             border-color: var(--gold);
@@ -166,6 +205,8 @@
 
         @media (max-width: 768px) {
             .account-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .account-container { padding: 4rem 5% 3rem; }
+            .account-title { margin-bottom: 2.5rem; font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -182,7 +223,15 @@
         <div class="account-grid">
             <!-- Profile Settings -->
             <div>
-                <h2 class="section-title">Shipping Details</h2>
+                <h2 class="section-title">Profile & Shipping</h2>
+                <div class="profile-header">
+                    <div class="avatar-container" onclick="document.getElementById('avatarUpload').click()">
+                        <img id="profileAvatar" src="" alt="Profile Avatar" class="profile-avatar">
+                        <div class="avatar-overlay"><span>Change</span></div>
+                    </div>
+                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                    <div class="avatar-loading" id="avatarLoading">Uploading...</div>
+                </div>
                 <form id="profileForm">
                     <div class="form-group">
                         <input type="tel" id="phone" class="form-input" placeholder="Phone Number" required>
@@ -274,6 +323,11 @@
 
             const userId = session.user.id;
 
+            // Set up Avatar
+            const userName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+            const avatarUrl = session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=F9F6EE&color=CC7722&bold=true`;
+            document.getElementById('profileAvatar').src = avatarUrl;
+
             // 1. Fetch Profile Data (Phone & Address)
             const { data: profile, error: profileError } = await supabaseClient
                 .from('profiles')
@@ -346,6 +400,44 @@
                 saveBtn.textContent = 'Preferences Saved!';
                 setTimeout(() => { saveBtn.textContent = 'Save Preferences'; }, 2000);
             }
+        });
+
+        // Handle Avatar Upload
+        document.getElementById('avatarUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const loadingEl = document.getElementById('avatarLoading');
+            loadingEl.style.display = 'block';
+            
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${session.user.id}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+            
+            const { error: uploadError } = await supabaseClient.storage
+                .from('avatars')
+                .upload(fileName, file);
+                
+            if (uploadError) {
+                alert('Error uploading image: ' + uploadError.message);
+                loadingEl.style.display = 'none';
+                return;
+            }
+            
+            const { data: { publicUrl } } = supabaseClient.storage
+                .from('avatars')
+                .getPublicUrl(fileName);
+                
+            const { error: updateError } = await supabaseClient.auth.updateUser({
+                data: { avatar_url: publicUrl }
+            });
+            
+            if (updateError) {
+                alert('Error saving profile image: ' + updateError.message);
+            } else {
+                document.getElementById('profileAvatar').src = publicUrl;
+            }
+            loadingEl.style.display = 'none';
         });
 
         // Handle Sign Out
