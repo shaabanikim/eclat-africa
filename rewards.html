@@ -306,6 +306,7 @@
     </main>
 
     <!-- Supabase Setup & Dynamic Dashboard Script -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://sqkqlwugkgrnyfcaaxgu.supabase.co';
@@ -388,25 +389,89 @@
         window.redeemStickers = async function(count) {
             if (!confirm(`Are you ready to redeem ${count} stickers for your rewards?`)) return;
 
-            // Get the exact database IDs for the oldest X unredeemed stickers
-            const toRedeem = unredeemedPurchases.slice(0, count);
-            const idsToUpdate = toRedeem.map(p => p.id);
-
-            // Update them in the database to be "spent"
-            const { error } = await supabaseClient
-                .from('purchases')
-                .update({ is_redeemed: true })
-                .in('id', idsToUpdate);
-
-            if (error) {
-                alert("Could not process redemption: " + error.message);
-                return;
+            // Instantly update button UI to show it's working and prevent double clicks
+            const actionWrapper = document.getElementById('actionWrapper');
+            const originalHTML = actionWrapper ? actionWrapper.innerHTML : '';
+            if (actionWrapper) {
+                actionWrapper.innerHTML = `
+                    <div class="kenyan-ribbon"></div>
+                    <a href="javascript:void(0);" class="concierge-btn" style="text-align: center; opacity: 0.7;">Loading checkout...</a>
+                `;
             }
 
-            // Route to WhatsApp with pre-filled message, then cleanly reload the UI
-            const waMessage = encodeURIComponent(`Hello E'clat Concierge! I have just redeemed ${count} stickers from my Collective dashboard and would like to claim my rewards.`);
-            window.location.href = `https://wa.me/254707425282?text=${waMessage}`;
-            setTimeout(() => loadPurchases(), 1000);
+            try {
+                const { data: { session }, error: authError } = await supabaseClient.auth.getSession();
+                if (authError || !session) {
+                    alert("Please sign in to redeem rewards.");
+                    if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+                    return;
+                }
+
+                if (typeof PaystackPop === 'undefined') {
+                    throw new Error("Paystack could not load. If you are using an Ad-Blocker or Brave Browser, please disable shields and refresh.");
+                }
+
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+
+                const customerEmail = session.user.email || 'customer@eclatafrica.com';
+                const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
+                const rewardSummary = count === 12 ? "Full 4-Flavor Collection (Reward)" : "Two Glosses of Choice (Reward)";
+
+                let handler = PaystackPop.setup({
+                    key: paystackPublicKey,
+                    email: customerEmail,
+                    phone: (profile && profile.phone) ? profile.phone : '',
+                    amount: 100, // 1 KES minimum checkout for rewards (Paystack requires > 0)
+                    currency: 'KES',
+                    ref: 'eclat-reward-' + Math.floor((Math.random() * 1000000000) + 1),
+                    metadata: {
+                        custom_fields: [
+                            { display_name: "Order Summary", variable_name: "order_summary", value: rewardSummary },
+                            { display_name: "Shipping Address", variable_name: "shipping_address", value: (profile && profile.shipping_address) ? profile.shipping_address : "No address provided" }
+                        ]
+                    },
+                    callback: function(response) {
+                        (async function() {
+                            if (actionWrapper) {
+                                actionWrapper.innerHTML = `
+                                    <div class="kenyan-ribbon"></div>
+                                    <a href="javascript:void(0);" class="concierge-btn" style="text-align: center; opacity: 0.7;">Finalizing...</a>
+                                `;
+                            }
+
+                            const toRedeem = unredeemedPurchases.slice(0, count);
+                            const idsToUpdate = toRedeem.map(p => p.id);
+
+                            const { error } = await supabaseClient
+                                .from('purchases')
+                                .update({ is_redeemed: true })
+                                .in('id', idsToUpdate);
+
+                            if (error) {
+                                alert("Could not process redemption: " + error.message);
+                                if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+                                return;
+                            }
+
+                            await loadPurchases();
+                            alert("Congratulations! Your reward has been successfully claimed and is being prepared for dispatch.");
+                        })();
+                    },
+                    onClose: function() {
+                        if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+                    }
+                });
+                
+                handler.openIframe();
+            } catch (error) {
+                console.error('Checkout error:', error);
+                alert("Checkout Error: " + (error.message || "Failed to start checkout."));
+                if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+            }
         };
 
         loadPurchases();

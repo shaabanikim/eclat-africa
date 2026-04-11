@@ -422,8 +422,9 @@
             if (affiliateCode) {
                 const { data: referrals, error: refError } = await supabaseClient
                     .from('referrals')
-                    .select('order_amount, commission')
-                    .eq('ambassador_code', affiliateCode);
+                    .select('order_amount, commission, created_at')
+                    .eq('ambassador_code', affiliateCode)
+                    .order('created_at', { ascending: false }); // Newest first
 
                 if (!refError && referrals) {
                     const totalSales = referrals.reduce((sum, ref) => sum + (ref.order_amount || 0), 0);
@@ -431,6 +432,25 @@
                     
                     document.getElementById('totalSales').textContent = totalSales.toLocaleString() + ' KES';
                     document.getElementById('totalCommission').textContent = totalCommission.toLocaleString() + ' KES';
+
+                    const refList = document.getElementById('referralList');
+                    if (referrals.length > 0) {
+                        refList.innerHTML = referrals.map(ref => {
+                            const date = new Date(ref.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                            return `
+                                <div class="order-card" style="padding: 1rem 0;">
+                                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                        <span class="order-name">Referred Sale</span>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">${date}</span>
+                                    </div>
+                                    <div style="text-align: right; display: flex; flex-direction: column; gap: 0.25rem;">
+                                        <span class="order-price" style="font-size: 1rem;">+${(ref.commission || 0).toLocaleString()} KES</span>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">from ${(ref.order_amount || 0).toLocaleString()} KES order</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    }
                 }
             }
         }

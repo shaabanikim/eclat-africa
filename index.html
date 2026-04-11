@@ -1552,6 +1552,11 @@
                 if (error) {
                     authMessage.style.color = '#990000';
                     authMessage.textContent = error.message;
+                    if (error.message.includes('Email not confirmed')) {
+                        authMessage.textContent = 'Please verify your email address. Check your inbox for the confirmation link.';
+                    } else {
+                        authMessage.textContent = error.message;
+                    }
                 } else {
                     authModal.classList.remove('active');
                     authForm.reset();
