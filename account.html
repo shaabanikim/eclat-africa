@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | E'clat Africa</title>
+    
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-cream: #F9F6EE;
+            --text-dark: #1C1C1C;
+            --text-muted: #666666;
+            --gold: #CC7722;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Minimalist Header */
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(28, 28, 28, 0.05);
+            background-color: var(--bg-cream);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover { color: var(--gold); }
+
+        /* Account Section */
+        .account-container {
+            padding: 6rem 5% 5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .account-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 4rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .account-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(28,28,28,0.1);
+            padding-bottom: 1rem;
+            font-style: italic;
+        }
+
+        /* Forms */
+        .form-group { margin-bottom: 1.5rem; }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid rgba(28,28,28,0.2);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #A0522D;
+            color: var(--bg-cream);
+            padding: 1rem 2.5rem;
+            border: 1px solid #A0522D;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            width: 100%;
+        }
+        
+        .btn.btn-secondary {
+            background-color: transparent;
+            color: var(--text-muted);
+            border-color: transparent;
+            box-shadow: none;
+            margin-top: 1rem;
+            font-weight: 400;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* Order History */
+        .order-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(28,28,28,0.05);
+        }
+
+        .order-name {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .order-price {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .empty-state {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .account-grid { grid-template-columns: 1fr; gap: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">E'clat Africa</a>
+        <a href="index.html" class="back-link">Return to Shop</a>
+    </header>
+
+    <main class="account-container">
+        <h1 class="account-title">My Account</h1>
+        
+        <div class="account-grid">
+            <!-- Profile Settings -->
+            <div>
+                <h2 class="section-title">Shipping Details</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <input type="tel" id="phone" class="form-input" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="address" class="form-input" placeholder="Delivery Address" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn" id="saveBtn">Save Preferences</button>
+                </form>
+                <button class="btn btn-secondary" id="signOutBtn">Sign Out</button>
+            </div>
+
+            <!-- Order History -->
+            <div>
+                <h2 class="section-title">Order History</h2>
+                <div id="orderList">
+                    <div class="empty-state">Loading your collection...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Supabase Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://sqkqlwugkgrnyfcaaxgu.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxa3Fsd3Vna2dybnlmY2FheGd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTYyNTYsImV4cCI6MjA5MTMzMjI1Nn0.Gntj9jGzlKad5RoWhPQaZVPMSJwWwMGEY7JfuhCz43U';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function loadAccountData() {
+            const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+            
+            if (sessionError || !session) {
+                window.location.href = 'index.html'; // Kick out unauthenticated users
+                return;
+            }
+
+            const userId = session.user.id;
+
+            // 1. Fetch Profile Data (Phone & Address)
+            const { data: profile, error: profileError } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+            
+            if (profileError && profileError.code !== 'PGRST116') { // Ignore "no rows found" error
+                console.error("Error fetching profile:", profileError);
+                alert("Could not load your profile details.");
+            }
+
+            if (profile) {
+                document.getElementById('phone').value = profile.phone || '';
+                document.getElementById('address').value = profile.shipping_address || '';
+            }
+
+            // 2. Fetch Order History (Purchases)
+            const { data: purchases, error: purchasesError } = await supabaseClient
+                .from('purchases')
+                .select('*')
+                .eq('user_id', userId);
+
+            const orderList = document.getElementById('orderList');
+            if (purchasesError) {
+                console.error("Error fetching purchases:", purchasesError);
+                orderList.innerHTML = '<div class="empty-state" style="color: #990000;">Could not load order history.</div>';
+                return;
+            }
+
+            if (purchases && purchases.length > 0) {
+                // Reverse array so newest orders appear at the top
+                orderList.innerHTML = purchases.reverse().map(p => `
+                    <div class="order-card">
+                        <div class="order-name">${p.product_name}</div>
+                        <div class="order-price">${p.amount.toLocaleString()} KES</div>
+                    </div>
+                `).join('');
+            } else {
+                orderList.innerHTML = '<div class="empty-state">You have not made any purchases yet.</div>';
+            }
+        }
+
+        // Handle saving shipping preferences
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.textContent = 'Saving...';
+            
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+
+            // Upsert will create the profile if it doesn't exist, or update it if it does!
+            const { error } = await supabaseClient
+                .from('profiles')
+                .upsert({ 
+                    id: session.user.id, 
+                    phone: phone, 
+                    shipping_address: address 
+                });
+
+            if (error) {
+                alert('Could not save details: ' + error.message);
+                saveBtn.textContent = 'Save Preferences';
+            } else {
+                saveBtn.textContent = 'Preferences Saved!';
+                setTimeout(() => { saveBtn.textContent = 'Save Preferences'; }, 2000);
+            }
+        });
+
+        // Handle Sign Out
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
+        });
+
+        loadAccountData();
+    </script>
+</body>
+</html>
