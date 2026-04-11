@@ -621,6 +621,77 @@
             font-weight: 500;
         }
 
+        /* Limited Edition / Collab Section */
+        .limited-edition-wrapper {
+            background-color: #FAF5EB;
+            padding: 8rem 5%;
+            border-top: 1px solid rgba(28, 28, 28, 0.05);
+        }
+        .collab-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .collab-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .collab-header p {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+        }
+        .collab-card {
+            display: flex;
+            background-color: #FFFFFF;
+            border: 1px solid rgba(28, 28, 28, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        }
+        .collab-image-container {
+            width: 50%;
+            position: relative;
+            min-height: 400px;
+        }
+        .collab-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .collab-info {
+            width: 50%;
+            padding: 5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .collab-info .origin-caption {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        .collab-info .product-title {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+        .collab-info .product-shade {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        .collab-info .whatsapp-buy-btn {
+            margin-left: 0;
+            margin-top: 1.5rem;
+        }
+
         /* Auth Modal */
         .auth-modal {
             display: none;
@@ -908,6 +979,25 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
+
+            .collab-card {
+                flex-direction: column;
+            }
+            .collab-image-container {
+                width: 100%;
+                height: 350px;
+                min-height: 350px;
+            }
+            .collab-info {
+                width: 100%;
+                padding: 4rem 2rem;
+                align-items: center;
+                text-align: center;
+            }
+            .collab-info .whatsapp-buy-btn {
+                margin-left: auto;
+                margin-right: auto;
+            }
         }
 
         @media (max-width: 600px) {
@@ -948,6 +1038,7 @@
             <a href="index.html" class="mobile-only">Home</a>
             <a href="#shop">Shop</a>
             <a href="#ingredients">Our Story</a>
+        <a href="#limited-edition">Limited</a>
             <a href="#" id="nav-signin">Sign In</a>
             <a href="rewards.html">Rewards</a>
             <a href="#cart" class="cart-counter-text">Cart (0)</a>
@@ -1088,6 +1179,34 @@
                         <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="addToCart('The Complete Collection', 10000)">Get the Whole Collection</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-complete" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="limited-edition-wrapper fade-in-section" id="limited-edition">
+            <div class="collab-header">
+                <div class="top-seller-badge" style="background-color: var(--gold); margin-bottom: 1rem;">Exclusive</div>
+                <h2>Limited Edition</h2>
+                <p>Where Quiet Luxury Meets Kenyan Craftsmanship</p>
+            </div>
+            
+            <div class="collab-card">
+                <div class="collab-image-container">
+                    <!-- Placeholder image for the collab - easily replaceable -->
+                    <img src="https://images.unsplash.com/photo-1599643478524-fb66f70a0066?q=80&w=800&auto=format&fit=crop" alt="E'clat x Denri Collaboration">
+                </div>
+                <div class="collab-info">
+                    <div class="origin-caption">E'clat × Denri</div>
+                    <h3 class="product-title">The Heritage Set</h3>
+                    <p class="product-shade">A bespoke Denri micro-leather pouch paired with our signature Swahili Spice gloss. A true collector's piece designed for the modern African connoisseur.</p>
+                    <p class="product-price" style="margin-bottom: 2.5rem;">4,500 KES</p>
+                    
+                    <div class="ribbon-btn-wrapper inline-wrapper">
+                        <div class="kenyan-ribbon"></div>
+                        <!-- Adding the collab item directly to cart -->
+                        <a href="javascript:void(0);" onclick="addToCart('Eclat x Denri Set', 4500)" class="product-btn" style="text-align: center;">Purchase Collaboration</a>
+                    </div>
+                    <a href="https://wa.me/254707425282" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Reserve via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -1291,6 +1410,9 @@
         googleSignInBtn.addEventListener('click', async () => {
             const { data, error } = await supabaseClient.auth.signInWithOAuth({
                 provider: 'google',
+                options: {
+                    redirectTo: window.location.origin + window.location.pathname
+                }
             });
             if (error) {
                 authMessage.style.color = '#990000';
@@ -1468,6 +1590,130 @@
                             display_name: "Shipping Address",
                             variable_name: "shipping_address",
                             value: profile && profile.shipping_address ? profile.shipping_address : "No address provided"
+                        }
+                    ]
+                },
+                callback: async function(response){
+                    // Save purchases to the Supabase database
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        const purchasesToInsert = [];
+                        cart.forEach(item => {
+                            if (item.productName === 'The Complete Collection') {
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Nairobi Night', amount: 2500 });
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Savannah Sunset', amount: 2500 });
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Coastal Hibiscus', amount: 2500 });
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Swahili Spice', amount: 2500 });
+                            } else {
+                                purchasesToInsert.push({ user_id: session.user.id, product_name: item.productName, amount: item.price });
+                            }
+                        });
+                        await supabaseClient.from('purchases').insert(purchasesToInsert);
+                    }
+                    
+                    cart = []; // Empty the cart
+                    saveCart(); // Save the empty cart state
+                    updateCartUI(); // Visually clear the cart
+                    window.location.href = 'order-confirmed.html?reference=' + response.reference;
+                },
+                onClose: function(){
+                    console.log('Payment window closed.');
+                }
+            });
+            handler.openIframe();
+        }
+    </script>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/254707425282" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="whatsapp-text">Chat with a Concierge</span>
+    </a>
+</body>
+</html> function openCart() {
+            cartSidebar.classList.add('active');
+            document.getElementById('sidebarOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (document.getElementById('navLinks').classList.contains('active')) {
+                document.getElementById('navLinks').classList.remove('active');
+            }
+        }
+
+        function closeCart() {
+            cartSidebar.classList.remove('active');
+            if (!document.getElementById('navLinks').classList.contains('active')) {
+                document.getElementById('sidebarOverlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        closeCartBtn.addEventListener('click', closeCart);
+        document.getElementById('sidebarOverlay').addEventListener('click', closeCart);
+
+        document.querySelectorAll('a[href="#cart"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openCart();
+            });
+        });
+
+        async function checkoutCart() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            
+            if (!session) {
+                document.getElementById('authTitle').textContent = "Sign In to Purchase";
+                document.getElementById('authSubtitle').textContent = "Please sign in or create an account to complete your order.";
+                closeCart(); // Hide the cart to focus on login
+                document.getElementById('authModal').classList.add('active');
+                return;
+            }
+
+            const customerEmail = session.user.email; 
+            // Using your test key so the checkout works during testing! Swap to pk_live_ when you launch.
+            const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
+            
+            const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
+            const amountInSmallestUnit = totalAmountKES * 100;
+            
+            const orderSummary = cart.map(item => item.productName).join(', ');
+
+            // Fetch user profile to pass shipping details to Paystack
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+
+            let handler = PaystackPop.setup({
+                key: paystackPublicKey,
+                email: customerEmail,
+                phone: profile ? profile.phone : '',
+                amount: amountInSmallestUnit,
+                currency: 'KES',
+                ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1),
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Order Summary",
+                            variable_name: "order_summary",
+                            value: orderSummary
+                        },
+                        {
+                            display_name: "Shipping Address",
+                            variable_name: "shipping_address",
+                            value: profile && profile.shipping_address ? profile.shipping_address : "No address provided"
+                        },
+                        {
+                            display_name: "County",
+                            variable_name: "county",
+                            value: profile && profile.county ? profile.county : "No county provided"
                         }
                     ]
                 },
