@@ -111,11 +111,9 @@
         }
 
         .sidebar-nav a.is-profile {
-            order: -1;
             color: var(--gold);
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            margin-bottom: 0.5rem;
             margin-bottom: 1rem;
             display: inline-block;
         }
@@ -993,38 +991,8 @@
                 display: inline-block;
             }
 
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background-color: var(--bg-cream);
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 6rem 2.5rem;
-                gap: 2rem;
-                transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                z-index: 1001;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.05);
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .nav-links a {
-                margin-left: 0;
-                font-size: 1.1rem;
-            }
-
-            .nav-links a.is-profile {
-                order: -1; /* Move to the top of the mobile menu */
-                color: var(--gold);
-                font-family: 'Playfair Display', serif;
-                font-style: italic;
-                margin-bottom: 0.5rem;
+            .desktop-nav {
+                display: none;
             }
 
             .featured-product {
@@ -1096,8 +1064,8 @@
         <div class="header-right">
             <nav class="desktop-nav">
                 <a href="#shop">Shop</a>
-                <a href="#" id="nav-signin">Sign In</a>
                 <a href="#cart" class="cart-counter-text">Cart (0)</a>
+                <a href="#" id="nav-signin">Sign In</a>
             </nav>
             <div class="mobile-menu-btn" id="mobileMenuBtn">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1118,9 +1086,9 @@
             <a href="#shop" class="mobile-only">Shop</a>
             <a href="#ingredients">Our Story</a>
             <a href="#limited-edition">Limited</a>
-            <a href="#" id="sidebar-signin" class="mobile-only">Sign In</a>
             <a href="rewards.html">Rewards</a>
             <a href="#cart" class="cart-counter-text mobile-only">Cart (0)</a>
+            <a href="#" id="sidebar-signin" class="mobile-only">Sign In</a>
         </nav>
     </header>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
