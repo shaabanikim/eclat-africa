@@ -297,7 +297,7 @@
             </div>
         </div>
 
-        <div class="ribbon-btn-wrapper inline-wrapper">
+        <div class="ribbon-btn-wrapper inline-wrapper" id="actionWrapper">
             <div class="kenyan-ribbon"></div>
             <a href="https://wa.me/254707425282" target="_blank" rel="noopener noreferrer" class="concierge-btn">Message our Concierge</a>
         </div>
@@ -310,14 +310,18 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxa3Fsd3Vna2dybnlmY2FheGd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NTYyNTYsImV4cCI6MjA5MTMzMjI1Nn0.Gntj9jGzlKad5RoWhPQaZVPMSJwWwMGEY7JfuhCz43U';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        let unredeemedPurchases = [];
+
         async function loadPurchases() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session) return; // User isn't logged in, leave slots empty as a preview
 
+            // Only fetch purchases that haven't been redeemed yet
             const { data: purchases, error } = await supabaseClient
                 .from('purchases')
                 .select('*')
-                .eq('user_id', session.user.id);
+                .eq('user_id', session.user.id)
+                .eq('is_redeemed', false);
 
             if (error) {
                 console.error("Error loading purchases:", error);
@@ -333,8 +337,19 @@
                 return;
             }
 
-            // Dynamically fill the glowing stickers based on what they bought!
-            purchases.forEach((purchase, index) => {
+            unredeemedPurchases = purchases || [];
+
+            // 1. Reset all slots to blank first (crucial for when the board resets)
+            for (let i = 1; i <= 12; i++) {
+                const slot = document.getElementById(`slot-${i}`);
+                if (slot) {
+                    slot.classList.add('empty');
+                    slot.innerHTML = '';
+                }
+            }
+
+            // 2. Dynamically fill the glowing stickers with unredeemed items
+            unredeemedPurchases.forEach((purchase, index) => {
                 if (index < 12) {
                     const slot = document.getElementById(`slot-${index + 1}`);
                     slot.classList.remove('empty');
@@ -344,7 +359,54 @@
                     slot.innerHTML = `<div class="sticker ${stickerClass}"></div>`;
                 }
             });
+
+            // 3. Update the Call-to-Action Button dynamically based on sticker count
+            const actionWrapper = document.getElementById('actionWrapper');
+            if (actionWrapper) {
+                if (unredeemedPurchases.length >= 12) {
+                    actionWrapper.innerHTML = `
+                        <div class="kenyan-ribbon"></div>
+                        <a href="javascript:void(0);" onclick="redeemStickers(12)" class="concierge-btn" style="text-align: center;">Redeem 12 Stickers</a>
+                    `;
+                } else if (unredeemedPurchases.length >= 6) {
+                    actionWrapper.innerHTML = `
+                        <div class="kenyan-ribbon"></div>
+                        <a href="javascript:void(0);" onclick="redeemStickers(6)" class="concierge-btn" style="text-align: center;">Redeem 6 Stickers</a>
+                    `;
+                } else {
+                    actionWrapper.innerHTML = `
+                        <div class="kenyan-ribbon"></div>
+                        <a href="https://wa.me/254707425282" target="_blank" rel="noopener noreferrer" class="concierge-btn">Message our Concierge</a>
+                    `;
+                }
+            }
         }
+
+        // Global function to handle the actual redemption
+        window.redeemStickers = async function(count) {
+            if (!confirm(`Are you ready to redeem ${count} stickers for your rewards?`)) return;
+
+            // Get the exact database IDs for the oldest X unredeemed stickers
+            const toRedeem = unredeemedPurchases.slice(0, count);
+            const idsToUpdate = toRedeem.map(p => p.id);
+
+            // Update them in the database to be "spent"
+            const { error } = await supabaseClient
+                .from('purchases')
+                .update({ is_redeemed: true })
+                .in('id', idsToUpdate);
+
+            if (error) {
+                alert("Could not process redemption: " + error.message);
+                return;
+            }
+
+            // Route to WhatsApp with pre-filled message, then cleanly reload the UI
+            const waMessage = encodeURIComponent(`Hello E'clat Concierge! I have just redeemed ${count} stickers from my Collective dashboard and would like to claim my rewards.`);
+            window.location.href = `https://wa.me/254707425282?text=${waMessage}`;
+            setTimeout(() => loadPurchases(), 1000);
+        };
+
         loadPurchases();
     </script>
 </body>
