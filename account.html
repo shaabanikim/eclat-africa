@@ -25,6 +25,7 @@
             color: var(--text-dark);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         /* Minimalist Header */
@@ -204,6 +205,8 @@
 
         @media (max-width: 768px) {
             .account-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .account-container { padding: 4rem 5% 3rem; }
+            .account-title { margin-bottom: 2.5rem; font-size: 2.5rem; }
         }
     </style>
 </head>

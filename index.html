@@ -30,6 +30,7 @@
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         /* Minimalist Header */
@@ -70,6 +71,17 @@
             margin-left: 2.5rem;
             transition: color 0.3s ease;
         }
+
+        .header-cart {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-left: 2.5rem;
+            transition: color 0.3s ease;
+        }
+        .header-cart:hover { color: var(--text-muted); }
 
         .desktop-nav a:hover {
             color: var(--text-muted);
@@ -233,7 +245,7 @@
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 7vw, 7.5rem);
+            font-size: clamp(2.5rem, 8vw, 7.5rem);
             font-weight: 400;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -947,6 +959,13 @@
 
         /* Mobile Responsiveness */
         @media (max-width: 900px) {
+            .logo {
+                font-size: 1.15rem;
+                letter-spacing: 3px;
+            }
+            .mobile-menu-btn, .header-cart {
+                margin-left: 1.25rem;
+            }
             .hero {
                 flex-direction: column-reverse;
                 justify-content: center;
@@ -994,6 +1013,15 @@
             .desktop-nav {
                 display: none;
             }
+            .ingredients-section, .featured-product, .collection-section, .limited-edition-wrapper, .loyalty-preview {
+                padding: 4rem 5%;
+            }
+            .product-card {
+                padding: 3rem 1.5rem 2rem;
+            }
+            .full-collection-card {
+                padding: 3rem 1.5rem;
+            }
 
             .featured-product {
                 flex-direction: column;
@@ -1018,6 +1046,9 @@
             .collection-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+            }
+            .auth-modal-content {
+                padding: 2.5rem 1.5rem;
             }
 
             .collab-card {
@@ -1064,9 +1095,9 @@
         <div class="header-right">
             <nav class="desktop-nav">
                 <a href="#shop">Shop</a>
-                <a href="#cart" class="cart-counter-text">Cart (0)</a>
                 <a href="#" id="nav-signin">Sign In</a>
             </nav>
+            <a href="#cart" class="header-cart cart-counter-text">Cart (0)</a>
             <div class="mobile-menu-btn" id="mobileMenuBtn">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -1087,7 +1118,6 @@
             <a href="#ingredients">Our Story</a>
             <a href="#limited-edition">Limited</a>
             <a href="rewards.html">Rewards</a>
-            <a href="#cart" class="cart-counter-text mobile-only">Cart (0)</a>
             <a href="#" id="sidebar-signin" class="mobile-only">Sign In</a>
         </nav>
     </header>
