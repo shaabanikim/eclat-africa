@@ -306,7 +306,6 @@
     </main>
 
     <!-- Supabase Setup & Dynamic Dashboard Script -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://sqkqlwugkgrnyfcaaxgu.supabase.co';
@@ -407,10 +406,6 @@
                     return;
                 }
 
-                if (typeof PaystackPop === 'undefined') {
-                    throw new Error("Paystack could not load. If you are using an Ad-Blocker or Brave Browser, please disable shields and refresh.");
-                }
-
                 const { data: profile } = await supabaseClient
                     .from('profiles')
                     .select('*')
@@ -418,58 +413,44 @@
                     .single();
 
                 const customerEmail = session.user.email || 'customer@eclatafrica.com';
-                const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
                 const rewardSummary = count === 12 ? "Full 4-Flavor Collection (Reward)" : "Two Glosses of Choice (Reward)";
+                const rewardFeeKES = 100; // 100 KES fee for dispatch
 
-                let handler = PaystackPop.setup({
-                    key: paystackPublicKey,
-                    email: customerEmail,
-                    phone: (profile && profile.phone) ? profile.phone : '',
-                    amount: 100, // 1 KES minimum checkout for rewards (Paystack requires > 0)
-                    currency: 'KES',
-                    ref: 'eclat-reward-' + Math.floor((Math.random() * 1000000000) + 1),
-                    metadata: {
-                        custom_fields: [
-                            { display_name: "Order Summary", variable_name: "order_summary", value: rewardSummary },
-                            { display_name: "Shipping Address", variable_name: "shipping_address", value: (profile && profile.shipping_address) ? profile.shipping_address : "No address provided" }
-                        ]
-                    },
-                    callback: function(response) {
-                        (async function() {
-                            if (actionWrapper) {
-                                actionWrapper.innerHTML = `
-                                    <div class="kenyan-ribbon"></div>
-                                    <a href="javascript:void(0);" class="concierge-btn" style="text-align: center; opacity: 0.7;">Finalizing...</a>
-                                `;
-                            }
+                // Prompt user to confirm their M-PESA number
+                const mpesaPhone = prompt(`Please confirm your M-PESA number to process the ${rewardFeeKES} KES dispatch fee (Format: 2547...):`, (profile && profile.phone) ? profile.phone : '254');
+                if (!mpesaPhone || mpesaPhone.trim() === '') {
+                    if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+                    return;
+                }
 
-                            const toRedeem = unredeemedPurchases.slice(0, count);
-                            const idsToUpdate = toRedeem.map(p => p.id);
+                // Extract the specific unredeemed IDs so the backend knows which ones to mark as redeemed
+                const toRedeem = unredeemedPurchases.slice(0, count);
+                const idsToUpdate = toRedeem.map(p => p.id);
 
-                            const { error } = await supabaseClient
-                                .from('purchases')
-                                .update({ is_redeemed: true })
-                                .in('id', idsToUpdate);
-
-                            if (error) {
-                                alert("Could not process redemption: " + error.message);
-                                if (actionWrapper) actionWrapper.innerHTML = originalHTML;
-                                return;
-                            }
-
-                            await loadPurchases();
-                            alert("Congratulations! Your reward has been successfully claimed and is being prepared for dispatch.");
-                        })();
-                    },
-                    onClose: function() {
-                        if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+                // Call the Supabase Edge Function to trigger the M-PESA push
+                const { data, error: functionError } = await supabaseClient.functions.invoke('mpesa-checkout', {
+                    body: {
+                        phone: mpesaPhone,
+                        amount: rewardFeeKES,
+                        is_reward: true,
+                        reward_count: count,
+                        reward_ids: idsToUpdate,
+                        email: customerEmail,
+                        shipping_address: (profile && profile.shipping_address) ? profile.shipping_address : "No address provided"
                     }
                 });
+
+                if (functionError) throw functionError;
+                if (data && data.error) throw new Error(data.error);
+
+                alert(`An M-PESA prompt has been sent to ${mpesaPhone}. Please enter your PIN to claim your reward. Your collection dashboard will update automatically once the payment clears.`);
                 
-                handler.openIframe();
+                // Revert UI to normal (we rely on the webhook to mark them as redeemed)
+                if (actionWrapper) actionWrapper.innerHTML = originalHTML;
+
             } catch (error) {
                 console.error('Checkout error:', error);
-                alert("Checkout Error: " + (error.message || "Failed to start checkout."));
+                alert("Checkout Error: " + (error.message || "Failed to initiate M-PESA STK Push."));
                 if (actionWrapper) actionWrapper.innerHTML = originalHTML;
             }
         };

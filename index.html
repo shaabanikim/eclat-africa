@@ -1183,11 +1183,11 @@
                 <h2>Nairobi Night</h2>
                 <div class="star-rating">★★★★★<span class="rating-count">(128 Reviews)</span></div>
                 <div class="featured-shade">Deep Maroon High-Shine Gloss</div>
-                <div class="featured-price">3,500 KES</div>
+                <div class="featured-price">1 KES</div>
                 <p>Our signature deep maroon gloss delivers a glass-like finish that catches the light from every angle. Infused with Nilotica Shea and Baobab oil, it provides lasting hydration without the stickiness. Wear it bare for a rich wash of color, or layer it over your favorite lip color for amplified dimension.</p>
                 <div class="ribbon-btn-wrapper inline-wrapper">
                     <div class="kenyan-ribbon"></div>
-                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addToCart('Nairobi Night', 3500)">Purchase</a>
+                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addToCart('Nairobi Night', 1)">Purchase</a>
                 </div>
                 <a href="https://wa.me/254707425282" id="wa-buy-featured-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
             </div>
@@ -1203,10 +1203,10 @@
                     <div class="origin-caption">Hand-pressed in Mt. Elgon</div>
                     <h3 class="product-title">Nairobi Night</h3>
                     <p class="product-shade">Deep Maroon</p>
-                    <p class="product-price">3,500 KES</p>
+                    <p class="product-price">1 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addToCart('Nairobi Night', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addToCart('Nairobi Night', 1)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1567,8 +1567,6 @@
         });
     </script>
 
-    <!-- Paystack Inline Checkout Script -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
         // Load cart from local storage or initialize empty array
         let cart = JSON.parse(localStorage.getItem('eclat_cart')) || [];
@@ -1691,18 +1689,10 @@
 
                 const storedRef = localStorage.getItem('eclat_ref'); 
                 const customerEmail = session.user.email || 'customer@eclatafrica.com'; 
-                const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
                 
                 const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
-                // Math.round is crucial to prevent floating point decimals which cause Paystack to silently crash
-                const amountInSmallestUnit = Math.round(totalAmountKES * 100);
                 
                 const orderSummary = cart.map(item => item.productName).join(', ');
-
-                // Ensure Paystack script loaded successfully
-                if (typeof PaystackPop === 'undefined') {
-                    throw new Error("Paystack could not load. If you are using an Ad-Blocker or Brave Browser, please disable shields and refresh.");
-                }
 
                 // Fetch user profile to pass shipping details to Paystack
                 const { data: profile } = await supabaseClient
@@ -1711,85 +1701,43 @@
                     .eq('id', session.user.id)
                     .single();
 
-                let handler = PaystackPop.setup({
-                    key: paystackPublicKey,
-                    email: customerEmail,
-                    // Safely handle missing phone numbers or addresses
-                    phone: (profile && profile.phone) ? profile.phone : '',
-                    amount: amountInSmallestUnit,
-                    currency: 'KES',
-                    ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1),
-                    metadata: {
-                        custom_fields: [
-                            {
-                                display_name: "Order Summary",
-                                variable_name: "order_summary",
-                                value: orderSummary
-                            },
-                            {
-                                display_name: "Shipping Address",
-                                variable_name: "shipping_address",
-                                value: (profile && profile.shipping_address) ? profile.shipping_address : "No address provided"
-                            }
-                        ]
-                    },
-                    callback: function(response){
-                        // Wrap the database logic in an anonymous async function to satisfy Paystack
-                        (async function() {
-                            // Reset button UI
-                            btn.textContent = originalText;
-                            btn.style.opacity = '1';
-                            btn.disabled = false;
+                // Prompt user to confirm their M-PESA number before pushing the request
+                const mpesaPhone = prompt("Please confirm your M-PESA number (Format: 2547... or 2541...):", (profile && profile.phone) ? profile.phone : '254');
+                if (!mpesaPhone || mpesaPhone.trim() === '') {
+                    btn.textContent = originalText;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    return;
+                }
 
-                            const { data: { session } } = await supabaseClient.auth.getSession();
-                            if (session) {
-                                const purchasesToInsert = [];
-                                cart.forEach(item => {
-                                    if (item.productName === 'The Complete Collection') {
-                                        purchasesToInsert.push({ user_id: session.user.id, product_name: 'Nairobi Night', amount: 2500 });
-                                        purchasesToInsert.push({ user_id: session.user.id, product_name: 'Savannah Sunset', amount: 2500 });
-                                        purchasesToInsert.push({ user_id: session.user.id, product_name: 'Coastal Hibiscus', amount: 2500 });
-                                        purchasesToInsert.push({ user_id: session.user.id, product_name: 'Swahili Spice', amount: 2500 });
-                                    } else {
-                                        purchasesToInsert.push({ user_id: session.user.id, product_name: item.productName, amount: item.price });
-                                    }
-                                });
-                                await supabaseClient.from('purchases').insert(purchasesToInsert);
-
-                                // Record the referral and calculate a 10% commission
-                                if (storedRef) {
-                                    const commissionRate = 0.10; // 10%
-                                    const commissionAmount = totalAmountKES * commissionRate;
-                                    
-                                    await supabaseClient.from('referrals').insert({
-                                        ambassador_code: storedRef,
-                                        buyer_id: session.user.id,
-                                        order_amount: totalAmountKES,
-                                        commission: commissionAmount
-                                    });
-                                }
-                            }
-                            
-                            cart = []; // Empty the cart
-                            saveCart(); // Save the empty cart state
-                            updateCartUI(); // Visually clear the cart
-                            window.location.href = 'order-confirmed.html?reference=' + response.reference;
-                        })();
-                    },
-                    onClose: function(){
-                        console.log('Payment window closed.');
-                        // Reset button UI
-                        btn.textContent = originalText;
-                        btn.style.opacity = '1';
-                        btn.disabled = false;
+                // Invoke our secure Supabase Edge Function for M-PESA checkout
+                const { data, error: functionError } = await supabaseClient.functions.invoke('mpesa-checkout', {
+                    body: {
+                        phone: mpesaPhone,
+                        amount: totalAmountKES, // Daraja handles standard KES, no need to multiply by 100
+                        cart: cart,
+                        referral_code: storedRef,
+                        email: customerEmail,
+                        shipping_address: (profile && profile.shipping_address) ? profile.shipping_address : "No address provided"
                     }
                 });
+
+                if (functionError) throw functionError;
+                if (data && data.error) throw new Error(data.error);
+
+                // Alert the user and clear the cart locally
+                alert(`An M-PESA prompt has been sent to ${mpesaPhone}. Please enter your PIN to complete the purchase. Your order will be confirmed automatically once paid.`);
                 
-                handler.openIframe();
+                cart = [];
+                saveCart();
+                updateCartUI();
+                
+                // Redirect to order confirmed page while the payment processes in the background
+                window.location.href = 'order-confirmed.html';
 
             } catch (error) {
                 console.error('Checkout error:', error);
-                alert("Checkout Error: " + (error.message || "Failed to start checkout."));
+                alert("Checkout Error: " + (error.message || "Failed to initiate M-PESA STK Push."));
                 const btn = document.getElementById('checkoutBtn');
                 btn.textContent = 'Checkout Securely';
                 btn.style.opacity = '1';

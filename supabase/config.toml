@@ -1,0 +1,5 @@
+[functions.mpesa-checkout]
+verify_jwt = false
+
+[functions.mpesa-webhook]
+verify_jwt = false
