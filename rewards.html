@@ -321,6 +321,15 @@
 
             if (error) {
                 console.error("Error loading purchases:", error);
+                const dashboard = document.querySelector('.loyalty-dashboard');
+                if (dashboard) {
+                    const errorEl = document.createElement('p');
+                    errorEl.textContent = 'Could not load your rewards status.';
+                    errorEl.style.color = '#990000';
+                    errorEl.style.textAlign = 'center';
+                    errorEl.style.marginBottom = '2rem';
+                    dashboard.prepend(errorEl);
+                }
                 return;
             }
 

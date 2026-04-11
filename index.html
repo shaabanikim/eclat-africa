@@ -876,8 +876,11 @@
                 font-size: 1.1rem;
             }
 
-            #nav-greeting {
-                margin-left: 0 !important;
+            .nav-links a.is-profile {
+                order: -1; /* Move to the top of the mobile menu */
+                color: var(--gold);
+                font-family: 'Playfair Display', serif;
+                font-style: italic;
                 margin-bottom: 0.5rem;
             }
 
@@ -942,8 +945,7 @@
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
-            <a href="#" class="mobile-only">Home</a>
-            <span id="nav-greeting" style="color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; display: none; margin-left: 2.5rem; font-size: 1.1rem;"></span>
+            <a href="index.html" class="mobile-only">Home</a>
             <a href="#shop">Shop</a>
             <a href="#ingredients">Our Story</a>
             <a href="#" id="nav-signin">Sign In</a>
@@ -1237,7 +1239,6 @@
         const authPassword = document.getElementById('authPassword');
         const authMessage = document.getElementById('authMessage');
         const googleSignInBtn = document.getElementById('googleSignInBtn');
-        const navGreeting = document.getElementById('nav-greeting');
         
         let isSignUp = false; // State tracker
 
@@ -1262,26 +1263,26 @@
         async function checkUser() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
-                navSignin.textContent = 'Sign Out';
-                // Get user's name from Google, or fallback to the first part of their email
-                const userName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-                navGreeting.textContent = `Welcome, ${userName}`;
-                navGreeting.style.display = 'inline-block';
+                navSignin.textContent = 'Profile';
+                navSignin.href = 'account.html';
+                navSignin.classList.add('is-profile');
             } else {
                 navSignin.textContent = 'Sign In';
-                navGreeting.style.display = 'none';
+                navSignin.href = '#';
+                navSignin.classList.remove('is-profile');
             }
         }
         checkUser();
 
+        // Automatically update UI if user logs in or out in another tab
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            checkUser();
+        });
+
         navSignin.addEventListener('click', async (e) => {
-            e.preventDefault();
             const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                await supabaseClient.auth.signOut();
-                checkUser();
-                alert('Successfully signed out.');
-            } else {
+            if (!session) {
+                e.preventDefault();
                 authModal.classList.add('active');
             }
         });
@@ -1334,16 +1335,23 @@
     <!-- Paystack Inline Checkout Script -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
-        let cart = [];
+        // Load cart from local storage or initialize empty array
+        let cart = JSON.parse(localStorage.getItem('eclat_cart')) || [];
+
+        function saveCart() {
+            localStorage.setItem('eclat_cart', JSON.stringify(cart));
+        }
 
         function addToCart(productName, price) {
             cart.push({ productName, price });
+            saveCart();
             updateCartUI();
             openCart();
         }
 
         function removeFromCart(index) {
             cart.splice(index, 1);
+            saveCart();
             updateCartUI();
         }
 
@@ -1376,6 +1384,9 @@
             });
             totalEl.textContent = `${total.toLocaleString()} KES`;
         }
+
+        // Update the Cart UI right away when the page loads
+        updateCartUI();
 
         const cartSidebar = document.getElementById('cartSidebar');
         const closeCartBtn = document.getElementById('closeCartBtn');
@@ -1424,16 +1435,25 @@
             }
 
             const customerEmail = session.user.email; 
-            const paystackPublicKey = "pk_live_YOUR_ACTUAL_LIVE_KEY_HERE";
+            // Using your test key so the checkout works during testing! Swap to pk_live_ when you launch.
+            const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
             
             const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
             const amountInSmallestUnit = totalAmountKES * 100;
             
             const orderSummary = cart.map(item => item.productName).join(', ');
 
+            // Fetch user profile to pass shipping details to Paystack
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+
             let handler = PaystackPop.setup({
                 key: paystackPublicKey,
                 email: customerEmail,
+                phone: profile ? profile.phone : '',
                 amount: amountInSmallestUnit,
                 currency: 'KES',
                 ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1),
@@ -1443,6 +1463,11 @@
                             display_name: "Order Summary",
                             variable_name: "order_summary",
                             value: orderSummary
+                        },
+                        {
+                            display_name: "Shipping Address",
+                            variable_name: "shipping_address",
+                            value: profile && profile.shipping_address ? profile.shipping_address : "No address provided"
                         }
                     ]
                 },
@@ -1465,7 +1490,8 @@
                     }
                     
                     cart = []; // Empty the cart
-                    updateCartUI();
+                    saveCart(); // Save the empty cart state
+                    updateCartUI(); // Visually clear the cart
                     window.location.href = 'order-confirmed.html?reference=' + response.reference;
                 },
                 onClose: function(){
