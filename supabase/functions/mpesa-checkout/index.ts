@@ -14,6 +14,8 @@ Deno.serve(async (req) => {
     const reqData = await req.json()
     const { phone, amount, cart, email, is_reward, reward_ids, referral_code } = reqData
 
+    if (!phone) throw new Error("Phone number is required");
+
     let formattedPhone = phone.replace(/\D/g, ''); 
     if (formattedPhone.startsWith('0')) formattedPhone = '254' + formattedPhone.slice(1);
     else if (formattedPhone.startsWith('+')) formattedPhone = formattedPhone.slice(1);
@@ -26,7 +28,7 @@ Deno.serve(async (req) => {
     
     if (!consumerKey || !consumerSecret) throw new Error("Daraja Secrets are missing in Supabase Settings!");
 
-    const envUrl = 'https://sandbox.safaricom.co.ke'; 
+    const envUrl = 'https://sandbox.safaricom.co.ke';
 
     const auth = btoa(`${consumerKey}:${consumerSecret}`);
     const tokenResponse = await fetch(`${envUrl}/oauth/v1/generate?grant_type=client_credentials`, {

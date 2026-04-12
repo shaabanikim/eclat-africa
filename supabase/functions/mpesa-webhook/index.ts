@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
 
     if (resultCode === 0) {
         // PAYMENT SUCCESSFUL
-        const callbackMetadata = callbackData.CallbackMetadata.Item;
+        const callbackMetadata = callbackData?.CallbackMetadata?.Item || [];
         const amountPaid = callbackMetadata.find((item: any) => item.Name === 'Amount')?.Value;
         const receiptNumber = callbackMetadata.find((item: any) => item.Name === 'MpesaReceiptNumber')?.Value;
 
@@ -33,16 +33,24 @@ Deno.serve(async (req) => {
         if (pending && !fetchErr) {
             if (pending.is_reward) {
                 // This was a reward redemption. Update the purchases table.
-                await supabase.from('purchases').update({ is_redeemed: true }).in('id', pending.reward_ids);
+                if (pending.reward_ids && pending.reward_ids.length > 0) {
+                    await supabase.from('purchases').update({ is_redeemed: true }).in('id', pending.reward_ids);
+                }
             } else {
                 // This was a new order. Unpack the cart and insert into purchases!
                 const purchasesToInsert: any[] = [];
-                pending.cart.forEach((item: any) => {
-                    if (item.productName === 'The Complete Collection') {
-                        purchasesToInsert.push({ user_id: pending.user_id, product_name: 'Nairobi Night', amount: 2500 });
-                        purchasesToInsert.push({ user_id: pending.user_id, product_name: 'Savannah Sunset', amount: 2500 });
-                        purchasesToInsert.push({ user_id: pending.user_id, product_name: 'Coastal Hibiscus', amount: 2500 });
-                        purchasesToInsert.push({ user_id: pending.user_id, product_name: 'Swahili Spice', amount: 2500 });
+                const cartItems = Array.isArray(pending.cart) ? pending.cart : [];
+                cartItems.forEach((item: any) => {
+                    const pName = item.productName || '';
+                    if (pName.includes('The Complete') && pName.includes('Collection')) {
+                        // Extract category, e.g. "The Complete Lip Oil Collection" -> "Lip Oil"
+                        const categoryMatch = pName.match(/The Complete (.*?) Collection/);
+                        const category = categoryMatch ? categoryMatch[1] : 'Lip Gloss';
+                        
+                        purchasesToInsert.push({ user_id: pending.user_id, product_name: `Nairobi Night ${category}`, amount: 2500 });
+                        purchasesToInsert.push({ user_id: pending.user_id, product_name: `Savannah Sunset ${category}`, amount: 2500 });
+                        purchasesToInsert.push({ user_id: pending.user_id, product_name: `Coastal Hibiscus ${category}`, amount: 2500 });
+                        purchasesToInsert.push({ user_id: pending.user_id, product_name: `Swahili Spice ${category}`, amount: 2500 });
                     } else {
                         purchasesToInsert.push({ user_id: pending.user_id, product_name: item.productName, amount: item.price });
                     }
@@ -76,20 +84,23 @@ Deno.serve(async (req) => {
                         <p style="text-align: center; font-size: 12px; color: #666666;">&copy; 2026 E'clat Africa. All Rights Reserved.</p>
                     </div>
                 `;
-
-                await fetch('https://api.resend.com/emails', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${resendApiKey}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        from: "onboarding@resend.dev", 
-                        to: pending.email,
-                        subject: "E'clat Africa | Payment Confirmed",
-                        html: emailHtml
-                    })
-                });
+                try {
+                    await fetch('https://api.resend.com/emails', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${resendApiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            from: "onboarding@resend.dev", 
+                            to: pending.email,
+                            subject: "E'clat Africa | Payment Confirmed",
+                            html: emailHtml
+                        })
+                    });
+                } catch (e) {
+                    console.error("Failed to send email", e);
+                }
             }
         }
     } else {

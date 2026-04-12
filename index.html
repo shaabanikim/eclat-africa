@@ -1180,14 +1180,14 @@
             </div>
             <div class="featured-text-col">
                 <div class="top-seller-badge">Top Seller</div>
-                <h2>Nairobi Night</h2>
+                <h2>Nairobi Night <span class="category-name-title" style="display: none;">Lip Gloss</span></h2>
                 <div class="star-rating">★★★★★<span class="rating-count">(128 Reviews)</span></div>
-                <div class="featured-shade">Deep Maroon High-Shine Gloss</div>
+                <div class="featured-shade">Deep Maroon High-Shine <span class="category-name-text">Gloss</span></div>
                 <div class="featured-price">1 KES</div>
-                <p>Our signature deep maroon gloss delivers a glass-like finish that catches the light from every angle. Infused with Nilotica Shea and Baobab oil, it provides lasting hydration without the stickiness. Wear it bare for a rich wash of color, or layer it over your favorite lip color for amplified dimension.</p>
+                <p>Our signature deep maroon formula delivers a glass-like finish that catches the light from every angle. Infused with Nilotica Shea and Baobab oil, it provides lasting hydration without the stickiness. Wear it bare for a rich wash of color, or layer it over your favorite lip color for amplified dimension.</p>
                 <div class="ribbon-btn-wrapper inline-wrapper">
                     <div class="kenyan-ribbon"></div>
-                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addToCart('Nairobi Night', 1)">Purchase</a>
+                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addCategorizedToCart('Nairobi Night', 1)">Purchase</a>
                 </div>
                 <a href="https://wa.me/254707425282" id="wa-buy-featured-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
             </div>
@@ -1196,31 +1196,38 @@
         <section class="collection-section fade-in-section" id="shop">
             <div class="collection-header">
                 <h2>The Inaugural Collection</h2>
+                <div class="category-selector-wrapper" style="margin-top: 2rem;">
+                    <label for="productCategory" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-right: 1rem;">Select Product Type:</label>
+                    <select id="productCategory" onchange="updateProductCategory()" style="padding: 0.75rem 1.5rem; font-family: 'Inter', sans-serif; font-size: 1rem; border: 1px solid rgba(28,28,28,0.2); background-color: transparent; color: var(--text-dark); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22black%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position-x: 95%; background-position-y: 50%; min-width: 200px;">
+                        <option value="Lip Gloss">Lip Glosses</option>
+                        <option value="Lip Oil">Lip Oils</option>
+                        <option value="Lip Balm">Lip Balms</option>
+                    </select>
+                </div>
             </div>
             <div class="collection-grid">
                 <div class="product-card">
                     <img src="images/nairobi-night.jpg" alt="Nairobi Night" class="product-image">
                     <div class="origin-caption">Hand-pressed in Mt. Elgon</div>
-                    <h3 class="product-title">Nairobi Night</h3>
+                    <h3 class="product-title">Nairobi Night <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Deep Maroon</p>
                     <p class="product-price">1 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addToCart('Nairobi Night', 1)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addCategorizedToCart('Nairobi Night', 1)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
                 
                 <div class="product-card card-savannah">
                     <img src="images/savannah-sunset.jpg" alt="Savannah Sunset" class="product-image">
-                    <div class="origin-caption">blended in the great rift valley
-                    </div>
-                    <h3 class="product-title">Savannah Sunset</h3>
+                    <div class="origin-caption">blended in the great rift valley</div>
+                    <h3 class="product-title">Savannah Sunset <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Bronze</p>
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-savannah" class="product-btn" onclick="addToCart('Savannah Sunset', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-savannah" class="product-btn" onclick="addCategorizedToCart('Savannah Sunset', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-savannah" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1228,12 +1235,12 @@
                 <div class="product-card">
                     <img src="images/coastal-hibiscus.jpg" alt="Coastal Hibiscus" class="product-image">
                     <div class="origin-caption">Sun-dried in Lamu</div>
-                    <h3 class="product-title">Coastal Hibiscus</h3>
+                    <h3 class="product-title">Coastal Hibiscus <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Berry</p>
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-coastal" class="product-btn" onclick="addToCart('Coastal Hibiscus', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-coastal" class="product-btn" onclick="addCategorizedToCart('Coastal Hibiscus', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-coastal" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1241,24 +1248,24 @@
                 <div class="product-card">
                     <img src="images/swahili-spice.jpg" alt="Swahili Spice" class="product-image">
                     <div class="origin-caption">sourced from the tana river</div>
-                    <h3 class="product-title">Swahili Spice</h3>
+                    <h3 class="product-title">Swahili Spice <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Clear</p>
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-swahili" class="product-btn" onclick="addToCart('Swahili Spice', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-swahili" class="product-btn" onclick="addCategorizedToCart('Swahili Spice', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-swahili" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
 
                 <div class="product-card full-collection-card">
                     <div class="origin-caption">The Ultimate Experience</div>
-                    <h3 class="product-title">The Complete Collection</h3>
-                    <p class="product-shade">Includes all 4 Signature Flavors:<br>Nairobi Night, Savannah Sunset, Coastal Hibiscus & Swahili Spice</p>
+                    <h3 class="product-title">The Complete <span class="category-name-display" style="font-style: italic; color: var(--gold);">Lip Gloss</span> Collection</h3>
+                    <p class="product-shade" id="fullCollectionDesc">Includes all 4 Signature Flavors in <span class="category-name-text" style="text-transform: none;">Gloss</span> form:<br>Nairobi Night, Savannah Sunset, Coastal Hibiscus & Swahili Spice</p>
                     <p class="product-price">10,000 KES</p>
                     <div class="ribbon-btn-wrapper inline-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="addToCart('The Complete Collection', 10000)">Get the Whole Collection</a>
+                        <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="addCategorizedToCart('The Complete Collection', 10000)">Get the Whole Collection</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-complete" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1288,7 +1295,7 @@
                         <!-- Adding the collab item directly to cart -->
                         <a href="javascript:void(0);" onclick="addToCart('Eclat x Denri Set', 4500)" class="product-btn" style="text-align: center;">Purchase Collaboration</a>
                     </div>
-                    <a href="https://wa.me/254707425282" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Reserve via WhatsApp</a>
+                    <a href="https://wa.me/254707425282" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -1570,6 +1577,60 @@
     <script>
         // Load cart from local storage or initialize empty array
         let cart = JSON.parse(localStorage.getItem('eclat_cart')) || [];
+
+        // Dynamic Product Categories
+        let currentProductCategory = 'Lip Gloss';
+        let currentProductType = 'Gloss';
+
+        function updateProductCategory() {
+            const select = document.getElementById('productCategory');
+            currentProductCategory = select.value;
+            
+            if (currentProductCategory === 'Lip Gloss') currentProductType = 'Gloss';
+            else if (currentProductCategory === 'Lip Oil') currentProductType = 'Oil';
+            else if (currentProductCategory === 'Lip Balm') currentProductType = 'Balm';
+
+            document.querySelectorAll('.category-name-display').forEach(el => el.textContent = currentProductCategory);
+            document.querySelectorAll('.category-name-text').forEach(el => el.textContent = currentProductType);
+            document.querySelectorAll('.category-name-title').forEach(el => {
+                el.textContent = currentProductCategory;
+                el.style.display = 'inline';
+            });
+
+            // Handle "Coming Soon" state for Oils and Balms
+            const isComingSoon = currentProductCategory === 'Lip Oil' || currentProductCategory === 'Lip Balm';
+            const buttonsToUpdate = [
+                document.getElementById('buy-featured-nairobi'),
+                document.getElementById('buy-nairobi'),
+                document.getElementById('buy-savannah'),
+                document.getElementById('buy-coastal'),
+                document.getElementById('buy-swahili'),
+                document.getElementById('buy-complete')
+            ];
+
+            buttonsToUpdate.forEach(btn => {
+                if (!btn) return;
+                
+                if (isComingSoon) {
+                    btn.textContent = 'Coming Soon';
+                    btn.style.opacity = '0.7';
+                    btn.style.pointerEvents = 'none'; // Prevents clicking
+                } else {
+                    btn.textContent = btn.id === 'buy-complete' ? 'Get the Whole Collection' : 'Purchase';
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto'; // Restores clicking
+                }
+            });
+        }
+
+        function addCategorizedToCart(baseName, price) {
+            if (currentProductCategory === 'Lip Oil' || currentProductCategory === 'Lip Balm') {
+                alert(`${currentProductCategory}s are coming soon! Stay tuned.`);
+                return;
+            }
+            let fullName = baseName === 'The Complete Collection' ? `The Complete ${currentProductCategory} Collection` : `${baseName} ${currentProductCategory}`;
+            addToCart(fullName, price);
+        }
 
         // Track Ambassador/Affiliate Referrals
         const urlParams = new URLSearchParams(window.location.search);

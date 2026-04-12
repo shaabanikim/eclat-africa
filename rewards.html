@@ -356,7 +356,7 @@
                     const slot = document.getElementById(`slot-${index + 1}`);
                     slot.classList.remove('empty');
                     
-                    const name = purchase.product_name.toLowerCase();
+                    const name = (purchase.product_name || '').toLowerCase();
                     const stickerClass = (name.includes('coastal') || name.includes('nairobi')) ? 'sticker-berry' : 'sticker-bronze';
                     slot.innerHTML = `<div class="sticker ${stickerClass}"></div>`;
                 }

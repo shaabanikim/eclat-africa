@@ -16,6 +16,8 @@ serve(async (req) => {
     const reqData = await req.json()
     const { phone, amount, cart, email, is_reward, reward_ids, referral_code } = reqData
 
+    if (!phone) throw new Error("Phone number is required");
+
     // 1. Format Phone Number (Daraja expects 254...)
     let formattedPhone = phone.replace(/\D/g, ''); // Remove any spaces or symbols
     if (formattedPhone.startsWith('0')) {
@@ -31,6 +33,8 @@ serve(async (req) => {
     const consumerSecret = Deno.env.get('DARAJA_CONSUMER_SECRET');
     const passkey = Deno.env.get('DARAJA_PASSKEY');
     const shortcode = Deno.env.get('DARAJA_SHORTCODE'); // e.g. 174379
+
+    if (!consumerKey || !consumerSecret) throw new Error("Daraja Secrets are missing!");
     
     // NOTE: Change to 'https://api.safaricom.co.ke' when going Live
     const envUrl = 'https://sandbox.safaricom.co.ke'; 
@@ -87,7 +91,13 @@ serve(async (req) => {
         body: JSON.stringify(stkPayload)
     });
 
-    const stkData = await stkResponse.json();
+    const stkText = await stkResponse.text();
+    let stkData;
+    try {
+        stkData = JSON.parse(stkText);
+    } catch (err) {
+        throw new Error("Safaricom STK API failed to respond properly.");
+    }
 
     // Check for Safaricom errors (e.g., invalid phone number)
     if (stkData.ResponseCode !== "0") {
