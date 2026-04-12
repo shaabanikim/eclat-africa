@@ -30,7 +30,6 @@
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
         }
 
         /* Minimalist Header */
@@ -72,17 +71,6 @@
             transition: color 0.3s ease;
         }
 
-        .header-cart {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-left: 2.5rem;
-            transition: color 0.3s ease;
-        }
-        .header-cart:hover { color: var(--text-muted); }
-
         .desktop-nav a:hover {
             color: var(--text-muted);
         }
@@ -123,32 +111,11 @@
         }
 
         .sidebar-nav a.is-profile {
+            order: -1;
             color: var(--gold);
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .profile-pic-nav {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--gold);
-            vertical-align: middle;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .sidebar-nav .profile-pic-nav {
-            width: 48px;
-            height: 48px;
-            border-width: 2px;
-        }
-
-        .profile-pic-nav:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(204, 119, 34, 0.2);
+            margin-bottom: 0.5rem;
         }
 
         .mobile-menu-btn {
@@ -245,7 +212,7 @@
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 8vw, 7.5rem);
+            font-size: clamp(4rem, 7vw, 7.5rem);
             font-weight: 400;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -946,6 +913,30 @@
             margin: 0 auto 3rem auto;
         }
 
+        /* Affiliate / Ambassador Section */
+        .affiliate-section {
+            background-color: #FFF9F2;
+            padding: 8rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(28, 28, 28, 0.05);
+        }
+
+        .affiliate-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .affiliate-section p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto 3rem auto;
+        }
+
         /* Scroll Fade-In Animation */
         .fade-in-section {
             opacity: 0;
@@ -959,13 +950,6 @@
 
         /* Mobile Responsiveness */
         @media (max-width: 900px) {
-            .logo {
-                font-size: 1.15rem;
-                letter-spacing: 3px;
-            }
-            .mobile-menu-btn, .header-cart {
-                margin-left: 1.25rem;
-            }
             .hero {
                 flex-direction: column-reverse;
                 justify-content: center;
@@ -1010,17 +994,38 @@
                 display: inline-block;
             }
 
-            .desktop-nav {
-                display: none;
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: var(--bg-cream);
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 6rem 2.5rem;
+                gap: 2rem;
+                transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                z-index: 1001;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.05);
             }
-            .ingredients-section, .featured-product, .collection-section, .limited-edition-wrapper, .loyalty-preview {
-                padding: 4rem 5%;
+
+            .nav-links.active {
+                right: 0;
             }
-            .product-card {
-                padding: 3rem 1.5rem 2rem;
+
+            .nav-links a {
+                margin-left: 0;
+                font-size: 1.1rem;
             }
-            .full-collection-card {
-                padding: 3rem 1.5rem;
+
+            .nav-links a.is-profile {
+                order: -1; /* Move to the top of the mobile menu */
+                color: var(--gold);
+                font-family: 'Playfair Display', serif;
+                font-style: italic;
+                margin-bottom: 0.5rem;
             }
 
             .featured-product {
@@ -1046,9 +1051,6 @@
             .collection-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
-            }
-            .auth-modal-content {
-                padding: 2.5rem 1.5rem;
             }
 
             .collab-card {
@@ -1095,9 +1097,10 @@
         <div class="header-right">
             <nav class="desktop-nav">
                 <a href="#shop">Shop</a>
+                <a href="#affiliate">Affiliate</a>
                 <a href="#" id="nav-signin">Sign In</a>
+                <a href="#cart" class="cart-counter-text">Cart (0)</a>
             </nav>
-            <a href="#cart" class="header-cart cart-counter-text">Cart (0)</a>
             <div class="mobile-menu-btn" id="mobileMenuBtn">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -1117,8 +1120,10 @@
             <a href="#shop" class="mobile-only">Shop</a>
             <a href="#ingredients">Our Story</a>
             <a href="#limited-edition">Limited</a>
-            <a href="rewards.html">Rewards</a>
+            <a href="#affiliate">Affiliate</a>
             <a href="#" id="sidebar-signin" class="mobile-only">Sign In</a>
+            <a href="rewards.html">Rewards</a>
+            <a href="#cart" class="cart-counter-text mobile-only">Cart (0)</a>
         </nav>
     </header>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -1175,14 +1180,14 @@
             </div>
             <div class="featured-text-col">
                 <div class="top-seller-badge">Top Seller</div>
-                <h2>Nairobi Night</h2>
+                <h2>Nairobi Night <span class="category-name-title" style="display: none;">Lip Gloss</span></h2>
                 <div class="star-rating">★★★★★<span class="rating-count">(128 Reviews)</span></div>
-                <div class="featured-shade">Deep Maroon High-Shine Gloss</div>
-                <div class="featured-price">3,500 KES</div>
-                <p>Our signature deep maroon gloss delivers a glass-like finish that catches the light from every angle. Infused with Nilotica Shea and Baobab oil, it provides lasting hydration without the stickiness. Wear it bare for a rich wash of color, or layer it over your favorite lip color for amplified dimension.</p>
+                <div class="featured-shade">Deep Maroon High-Shine <span class="category-name-text">Gloss</span></div>
+                <div class="featured-price">1 KES</div>
+                <p>Our signature deep maroon formula delivers a glass-like finish that catches the light from every angle. Infused with Nilotica Shea and Baobab oil, it provides lasting hydration without the stickiness. Wear it bare for a rich wash of color, or layer it over your favorite lip color for amplified dimension.</p>
                 <div class="ribbon-btn-wrapper inline-wrapper">
                     <div class="kenyan-ribbon"></div>
-                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addToCart('Nairobi Night', 3500)">Purchase</a>
+                    <a href="javascript:void(0);" id="buy-featured-nairobi" class="cta-btn" onclick="addCategorizedToCart('Nairobi Night', 1)">Purchase</a>
                 </div>
                 <a href="https://wa.me/254707425282" id="wa-buy-featured-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
             </div>
@@ -1191,31 +1196,38 @@
         <section class="collection-section fade-in-section" id="shop">
             <div class="collection-header">
                 <h2>The Inaugural Collection</h2>
+                <div class="category-selector-wrapper" style="margin-top: 2rem;">
+                    <label for="productCategory" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-right: 1rem;">Select Product Type:</label>
+                    <select id="productCategory" onchange="updateProductCategory()" style="padding: 0.75rem 1.5rem; font-family: 'Inter', sans-serif; font-size: 1rem; border: 1px solid rgba(28,28,28,0.2); background-color: transparent; color: var(--text-dark); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22black%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position-x: 95%; background-position-y: 50%; min-width: 200px;">
+                        <option value="Lip Gloss">Lip Glosses</option>
+                        <option value="Lip Oil">Lip Oils</option>
+                        <option value="Lip Balm">Lip Balms</option>
+                    </select>
+                </div>
             </div>
             <div class="collection-grid">
                 <div class="product-card">
                     <img src="images/nairobi-night.jpg" alt="Nairobi Night" class="product-image">
                     <div class="origin-caption">Hand-pressed in Mt. Elgon</div>
-                    <h3 class="product-title">Nairobi Night</h3>
+                    <h3 class="product-title">Nairobi Night <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Deep Maroon</p>
-                    <p class="product-price">3,500 KES</p>
+                    <p class="product-price">1 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addToCart('Nairobi Night', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-nairobi" class="product-btn" onclick="addCategorizedToCart('Nairobi Night', 1)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-nairobi" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
                 
                 <div class="product-card card-savannah">
                     <img src="images/savannah-sunset.jpg" alt="Savannah Sunset" class="product-image">
-                    <div class="origin-caption">blended in the great rift valley
-                    </div>
-                    <h3 class="product-title">Savannah Sunset</h3>
+                    <div class="origin-caption">blended in the great rift valley</div>
+                    <h3 class="product-title">Savannah Sunset <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Bronze</p>
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-savannah" class="product-btn" onclick="addToCart('Savannah Sunset', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-savannah" class="product-btn" onclick="addCategorizedToCart('Savannah Sunset', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-savannah" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1223,12 +1235,12 @@
                 <div class="product-card">
                     <img src="images/coastal-hibiscus.jpg" alt="Coastal Hibiscus" class="product-image">
                     <div class="origin-caption">Sun-dried in Lamu</div>
-                    <h3 class="product-title">Coastal Hibiscus</h3>
+                    <h3 class="product-title">Coastal Hibiscus <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Berry</p>
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-coastal" class="product-btn" onclick="addToCart('Coastal Hibiscus', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-coastal" class="product-btn" onclick="addCategorizedToCart('Coastal Hibiscus', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-coastal" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1236,24 +1248,24 @@
                 <div class="product-card">
                     <img src="images/swahili-spice.jpg" alt="Swahili Spice" class="product-image">
                     <div class="origin-caption">sourced from the tana river</div>
-                    <h3 class="product-title">Swahili Spice</h3>
+                    <h3 class="product-title">Swahili Spice <br><span class="category-name-display" style="font-size: 1.1rem; color: var(--text-muted); font-style: italic;">Lip Gloss</span></h3>
                     <p class="product-shade">Clear</p>
                     <p class="product-price">3,500 KES</p>
                     <div class="ribbon-btn-wrapper grid-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-swahili" class="product-btn" onclick="addToCart('Swahili Spice', 3500)">Purchase</a>
+                        <a href="javascript:void(0);" id="buy-swahili" class="product-btn" onclick="addCategorizedToCart('Swahili Spice', 3500)">Purchase</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-swahili" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
 
                 <div class="product-card full-collection-card">
                     <div class="origin-caption">The Ultimate Experience</div>
-                    <h3 class="product-title">The Complete Collection</h3>
-                    <p class="product-shade">Includes all 4 Signature Flavors:<br>Nairobi Night, Savannah Sunset, Coastal Hibiscus & Swahili Spice</p>
+                    <h3 class="product-title">The Complete <span class="category-name-display" style="font-style: italic; color: var(--gold);">Lip Gloss</span> Collection</h3>
+                    <p class="product-shade" id="fullCollectionDesc">Includes all 4 Signature Flavors in <span class="category-name-text" style="text-transform: none;">Gloss</span> form:<br>Nairobi Night, Savannah Sunset, Coastal Hibiscus & Swahili Spice</p>
                     <p class="product-price">10,000 KES</p>
                     <div class="ribbon-btn-wrapper inline-wrapper">
                         <div class="kenyan-ribbon"></div>
-                        <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="addToCart('The Complete Collection', 10000)">Get the Whole Collection</a>
+                        <a href="javascript:void(0);" id="buy-complete" class="product-btn" onclick="addCategorizedToCart('The Complete Collection', 10000)">Get the Whole Collection</a>
                     </div>
                     <a href="https://wa.me/254707425282" id="wa-buy-complete" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
@@ -1283,7 +1295,7 @@
                         <!-- Adding the collab item directly to cart -->
                         <a href="javascript:void(0);" onclick="addToCart('Eclat x Denri Set', 4500)" class="product-btn" style="text-align: center;">Purchase Collaboration</a>
                     </div>
-                    <a href="https://wa.me/254707425282" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Reserve via WhatsApp</a>
+                    <a href="https://wa.me/254707425282" class="whatsapp-buy-btn" target="_blank" rel="noopener noreferrer">Buy via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -1294,6 +1306,15 @@
             <div class="ribbon-btn-wrapper inline-wrapper">
                 <div class="kenyan-ribbon"></div>
                 <a href="rewards.html" class="cta-btn" style="padding: 1rem 3rem; font-size: 0.75rem;">View Rewards & Perks</a>
+            </div>
+        </section>
+
+        <section class="affiliate-section fade-in-section" id="affiliate">
+            <h2>Become an Ambassador</h2>
+            <p>Share your glow and earn exclusive rewards. Join our collective of ambassadors, share your bespoke affiliate link, and receive perks for every referral.</p>
+            <div class="ribbon-btn-wrapper inline-wrapper">
+                <div class="kenyan-ribbon"></div>
+                <a href="#" class="cta-btn affiliate-join-btn">Join the Program</a>
             </div>
         </section>
     </main>
@@ -1458,20 +1479,27 @@
         async function checkUser() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             const signinBtns = document.querySelectorAll('#nav-signin, #sidebar-signin');
+            const affiliateBtns = document.querySelectorAll('.affiliate-join-btn');
+            
             signinBtns.forEach(btn => {
                 if (session) {
                     btn.textContent = 'Profile';
-                    const userName = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-                    // Try to get Google avatar, or fallback to an auto-generated initial avatar matching the brand
-                    const avatarUrl = session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=F9F6EE&color=CC7722&bold=true`;
-                    
-                    btn.innerHTML = `<img src="${avatarUrl}" alt="${userName}" class="profile-pic-nav" title="Go to Account">`;
                     btn.href = 'account.html';
                     btn.classList.add('is-profile');
                 } else {
                     btn.textContent = 'Sign In';
                     btn.href = '#';
                     btn.classList.remove('is-profile');
+                }
+            });
+
+            affiliateBtns.forEach(btn => {
+                if (session) {
+                    btn.textContent = 'View Dashboard';
+                    btn.href = 'account.html';
+                } else {
+                    btn.textContent = 'Join the Program';
+                    btn.href = '#';
                 }
             });
         }
@@ -1482,7 +1510,7 @@
             checkUser();
         });
 
-        document.querySelectorAll('#nav-signin, #sidebar-signin').forEach(btn => {
+        document.querySelectorAll('#nav-signin, #sidebar-signin, .affiliate-join-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 if (!session) {
@@ -1531,6 +1559,11 @@
                 if (error) {
                     authMessage.style.color = '#990000';
                     authMessage.textContent = error.message;
+                    if (error.message.includes('Email not confirmed')) {
+                        authMessage.textContent = 'Please verify your email address. Check your inbox for the confirmation link.';
+                    } else {
+                        authMessage.textContent = error.message;
+                    }
                 } else {
                     authModal.classList.remove('active');
                     authForm.reset();
@@ -1541,11 +1574,70 @@
         });
     </script>
 
-    <!-- Paystack Inline Checkout Script -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
         // Load cart from local storage or initialize empty array
         let cart = JSON.parse(localStorage.getItem('eclat_cart')) || [];
+
+        // Dynamic Product Categories
+        let currentProductCategory = 'Lip Gloss';
+        let currentProductType = 'Gloss';
+
+        function updateProductCategory() {
+            const select = document.getElementById('productCategory');
+            currentProductCategory = select.value;
+            
+            if (currentProductCategory === 'Lip Gloss') currentProductType = 'Gloss';
+            else if (currentProductCategory === 'Lip Oil') currentProductType = 'Oil';
+            else if (currentProductCategory === 'Lip Balm') currentProductType = 'Balm';
+
+            document.querySelectorAll('.category-name-display').forEach(el => el.textContent = currentProductCategory);
+            document.querySelectorAll('.category-name-text').forEach(el => el.textContent = currentProductType);
+            document.querySelectorAll('.category-name-title').forEach(el => {
+                el.textContent = currentProductCategory;
+                el.style.display = 'inline';
+            });
+
+            // Handle "Coming Soon" state for Oils and Balms
+            const isComingSoon = currentProductCategory === 'Lip Oil' || currentProductCategory === 'Lip Balm';
+            const buttonsToUpdate = [
+                document.getElementById('buy-featured-nairobi'),
+                document.getElementById('buy-nairobi'),
+                document.getElementById('buy-savannah'),
+                document.getElementById('buy-coastal'),
+                document.getElementById('buy-swahili'),
+                document.getElementById('buy-complete')
+            ];
+
+            buttonsToUpdate.forEach(btn => {
+                if (!btn) return;
+                
+                if (isComingSoon) {
+                    btn.textContent = 'Coming Soon';
+                    btn.style.opacity = '0.7';
+                    btn.style.pointerEvents = 'none'; // Prevents clicking
+                } else {
+                    btn.textContent = btn.id === 'buy-complete' ? 'Get the Whole Collection' : 'Purchase';
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'auto'; // Restores clicking
+                }
+            });
+        }
+
+        function addCategorizedToCart(baseName, price) {
+            if (currentProductCategory === 'Lip Oil' || currentProductCategory === 'Lip Balm') {
+                alert(`${currentProductCategory}s are coming soon! Stay tuned.`);
+                return;
+            }
+            let fullName = baseName === 'The Complete Collection' ? `The Complete ${currentProductCategory} Collection` : `${baseName} ${currentProductCategory}`;
+            addToCart(fullName, price);
+        }
+
+        // Track Ambassador/Affiliate Referrals
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get('ref');
+        if (refCode) {
+            localStorage.setItem('eclat_ref', refCode);
+        }
 
         function saveCart() {
             localStorage.setItem('eclat_cart', JSON.stringify(cart));
@@ -1628,86 +1720,90 @@
         });
 
         async function checkoutCart() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            
-            if (!session) {
-                document.getElementById('authTitle').textContent = "Sign In to Purchase";
-                document.getElementById('authSubtitle').textContent = "Please sign in or create an account to complete your order.";
-                closeCart(); // Hide the cart to focus on login
-                document.getElementById('authModal').classList.add('active');
-                return;
-            }
-
-            const customerEmail = session.user.email; 
-            // Using your test key so the checkout works during testing! Swap to pk_live_ when you launch.
-            const paystackPublicKey = "pk_test_371c646dd5b83032d68a066ed9ca0a50d6f9ca3e";
-            
-            const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
-            const amountInSmallestUnit = totalAmountKES * 100;
-            
-            const orderSummary = cart.map(item => item.productName).join(', ');
-
-            // Fetch user profile to pass shipping details to Paystack
-            const { data: profile } = await supabaseClient
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-
-            let handler = PaystackPop.setup({
-                key: paystackPublicKey,
-                email: customerEmail,
-                phone: profile ? profile.phone : '',
-                amount: amountInSmallestUnit,
-                currency: 'KES',
-                ref: 'eclat-' + Math.floor((Math.random() * 1000000000) + 1),
-                metadata: {
-                    custom_fields: [
-                        {
-                            display_name: "Order Summary",
-                            variable_name: "order_summary",
-                            value: orderSummary
-                        },
-                        {
-                            display_name: "Shipping Address",
-                            variable_name: "shipping_address",
-                            value: profile && profile.shipping_address ? profile.shipping_address : "No address provided"
-                        }
-                    ]
-                },
-                callback: async function(response){
-                    // Save purchases to the Supabase database
-                    const { data: { session } } = await supabaseClient.auth.getSession();
-                    if (session) {
-                        const purchasesToInsert = [];
-                        cart.forEach(item => {
-                            if (item.productName === 'The Complete Collection') {
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Nairobi Night', amount: 2500 });
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Savannah Sunset', amount: 2500 });
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Coastal Hibiscus', amount: 2500 });
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: 'Swahili Spice', amount: 2500 });
-                            } else {
-                                purchasesToInsert.push({ user_id: session.user.id, product_name: item.productName, amount: item.price });
-                            }
-                        });
-                        await supabaseClient.from('purchases').insert(purchasesToInsert);
-                    }
-                    
-                    cart = []; // Empty the cart
-                    saveCart(); // Save the empty cart state
-                    updateCartUI(); // Visually clear the cart
-                    window.location.href = 'order-confirmed.html?reference=' + response.reference;
-                },
-                onClose: function(){
-                    console.log('Payment window closed.');
+            try {
+                if (cart.length === 0) {
+                    alert("Your cart is empty!");
+                    return;
                 }
-            });
-            handler.openIframe();
+
+                // Provide instant visual feedback so the user knows it's working
+                const btn = document.getElementById('checkoutBtn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Please wait...';
+                btn.style.opacity = '0.7';
+                btn.disabled = true;
+
+                const { data: { session }, error: authError } = await supabaseClient.auth.getSession();
+                
+                if (authError || !session) {
+                    document.getElementById('authTitle').textContent = "Sign In to Purchase";
+                    document.getElementById('authSubtitle').textContent = "Please sign in or create an account to complete your order.";
+                    closeCart(); // Hide the cart to focus on login
+                    document.getElementById('authModal').classList.add('active');
+                    
+                    // Reset button
+                    btn.textContent = originalText;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    return;
+                }
+
+                const storedRef = localStorage.getItem('eclat_ref'); 
+                const customerEmail = session.user.email || 'customer@eclatafrica.com'; 
+                
+                const totalAmountKES = cart.reduce((sum, item) => sum + item.price, 0);
+                
+                const orderSummary = cart.map(item => item.productName).join(', ');
+
+                // Fetch user profile to pass shipping details to Paystack
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+
+                // Prompt user to confirm their M-PESA number before pushing the request
+                const mpesaPhone = prompt("Please confirm your M-PESA number (Format: 2547... or 2541...):", (profile && profile.phone) ? profile.phone : '254');
+                if (!mpesaPhone || mpesaPhone.trim() === '') {
+                    btn.textContent = originalText;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    return;
+                }
+
+                // Invoke our secure Supabase Edge Function for M-PESA checkout
+                const { data, error: functionError } = await supabaseClient.functions.invoke('mpesa-checkout', {
+                    body: {
+                        phone: mpesaPhone,
+                        amount: totalAmountKES, // Daraja handles standard KES, no need to multiply by 100
+                        cart: cart,
+                        referral_code: storedRef,
+                        email: customerEmail,
+                        shipping_address: (profile && profile.shipping_address) ? profile.shipping_address : "No address provided"
+                    }
+                });
+
+                if (functionError) throw functionError;
+                if (data && data.error) throw new Error(data.error);
+
+                // Alert the user and clear the cart locally
+                alert(`An M-PESA prompt has been sent to ${mpesaPhone}. Please enter your PIN to complete the purchase. Your order will be confirmed automatically once paid.`);
+                
+                cart = [];
+                saveCart();
+                updateCartUI();
+                
+                // Redirect to order confirmed page while the payment processes in the background
+                window.location.href = 'order-confirmed.html';
+
+            } catch (error) {
+                console.error('Checkout error:', error);
+                alert("Checkout Error: " + (error.message || "Failed to initiate M-PESA STK Push."));
+                const btn = document.getElementById('checkoutBtn');
+                btn.textContent = 'Checkout Securely';
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            }
         }
     </script>
 

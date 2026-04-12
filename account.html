@@ -203,6 +203,14 @@
             font-size: 0.95rem;
         }
 
+        /* Ambassador Section */
+        .ambassador-section {
+            grid-column: 1 / -1;
+            border-top: 1px solid rgba(28,28,28,0.05);
+            padding-top: 3rem;
+            margin-top: 1rem;
+        }
+
         @media (max-width: 768px) {
             .account-grid { grid-template-columns: 1fr; gap: 3rem; }
             .account-container { padding: 4rem 5% 3rem; }
@@ -303,6 +311,29 @@
                     <div class="empty-state">Loading your collection...</div>
                 </div>
             </div>
+
+            <!-- Ambassador Program -->
+            <div class="ambassador-section">
+                <h2 class="section-title">The Ambassador Program</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem; max-width: 600px;">Share your exclusive link with friends and followers. Earn a 10% commission on all total sales generated through your bespoke link.</p>
+                
+                <div style="display: flex; gap: 1rem; align-items: center; max-width: 600px; margin-bottom: 2.5rem;">
+                    <input type="text" id="affiliateLink" class="form-input" readonly value="Generating your link..." style="background: rgba(28,28,28,0.02); color: var(--gold);">
+                    <button class="btn" id="copyLinkBtn" style="width: auto; white-space: nowrap; padding: 1rem 2rem;">Copy Link</button>
+                </div>
+
+                <!-- Analytics Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 600px;">
+                    <div style="background: #fff; padding: 2rem; border: 1px solid rgba(28,28,28,0.1); text-align: center;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">Total Sales</div>
+                        <div id="totalSales" style="font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--text-dark);">0 KES</div>
+                    </div>
+                    <div style="background: #fff; padding: 2rem; border: 1px solid var(--gold); text-align: center;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">Your Commission</div>
+                        <div id="totalCommission" style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 2rem; color: var(--gold);">0 KES</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -346,6 +377,22 @@
                 document.getElementById('address').value = profile.shipping_address || '';
             }
 
+            // 1.5 Setup Affiliate/Ambassador Link
+            let affiliateCode = profile ? profile.affiliate_code : null;
+            if (!affiliateCode) {
+                // Generate a code using their first name + random numbers (e.g., ALICE8392)
+                const cleanName = userName.split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '') || 'ECLAT';
+                affiliateCode = cleanName + Math.floor(1000 + Math.random() * 9000);
+                
+                // Save it to their profile in the background
+                if (profile) {
+                    await supabaseClient.from('profiles').update({ affiliate_code: affiliateCode }).eq('id', userId);
+                } else {
+                    await supabaseClient.from('profiles').insert({ id: userId, affiliate_code: affiliateCode });
+                }
+            }
+            document.getElementById('affiliateLink').value = window.location.origin + '/index.html?ref=' + affiliateCode;
+
             // 2. Fetch Order History (Purchases)
             const { data: purchases, error: purchasesError } = await supabaseClient
                 .from('purchases')
@@ -369,6 +416,42 @@
                 `).join('');
             } else {
                 orderList.innerHTML = '<div class="empty-state">You have not made any purchases yet.</div>';
+            }
+
+            // 3. Fetch Referral Sales & Calculate Commission
+            if (affiliateCode) {
+                const { data: referrals, error: refError } = await supabaseClient
+                    .from('referrals')
+                    .select('order_amount, commission, created_at')
+                    .eq('ambassador_code', affiliateCode)
+                    .order('created_at', { ascending: false }); // Newest first
+
+                if (!refError && referrals) {
+                    const totalSales = referrals.reduce((sum, ref) => sum + (ref.order_amount || 0), 0);
+                    const totalCommission = referrals.reduce((sum, ref) => sum + (ref.commission || 0), 0);
+                    
+                    document.getElementById('totalSales').textContent = totalSales.toLocaleString() + ' KES';
+                    document.getElementById('totalCommission').textContent = totalCommission.toLocaleString() + ' KES';
+
+                    const refList = document.getElementById('referralList');
+                    if (referrals.length > 0) {
+                        refList.innerHTML = referrals.map(ref => {
+                            const date = new Date(ref.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                            return `
+                                <div class="order-card" style="padding: 1rem 0;">
+                                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                        <span class="order-name">Referred Sale</span>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">${date}</span>
+                                    </div>
+                                    <div style="text-align: right; display: flex; flex-direction: column; gap: 0.25rem;">
+                                        <span class="order-price" style="font-size: 1rem;">+${(ref.commission || 0).toLocaleString()} KES</span>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">from ${(ref.order_amount || 0).toLocaleString()} KES order</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+                }
             }
         }
 
@@ -400,6 +483,16 @@
                 saveBtn.textContent = 'Preferences Saved!';
                 setTimeout(() => { saveBtn.textContent = 'Save Preferences'; }, 2000);
             }
+        });
+
+        // Handle Copy Link
+        document.getElementById('copyLinkBtn').addEventListener('click', () => {
+            const linkInput = document.getElementById('affiliateLink');
+            linkInput.select();
+            document.execCommand('copy');
+            const btn = document.getElementById('copyLinkBtn');
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy Link'; }, 2000);
         });
 
         // Handle Avatar Upload
