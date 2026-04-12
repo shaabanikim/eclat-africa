@@ -429,6 +429,45 @@
             margin-bottom: 1.5rem;
         }
 
+        /* Category Dropdown */
+        .category-selector-wrapper {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+        }
+
+        .category-select {
+            padding: 0.75rem 2.5rem 0.75rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            border: 1px solid rgba(28,28,28,0.2);
+            background-color: transparent;
+            color: var(--text-dark);
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%231C1C1C" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            min-width: 200px;
+            border-radius: 0;
+        }
+
+        .category-select:focus {
+            border-color: var(--gold);
+        }
+
         .star-rating {
             color: var(--gold);
             font-size: 1.15rem;
@@ -1033,30 +1072,19 @@
             }
 
             .featured-product {
-                flex-direction: row;
-                gap: 2rem;
+                flex-direction: column;
+                gap: 3rem;
                 padding-top: 4rem;
-                text-align: left;
-                align-items: center;
-            }
-
-            .featured-text-col h2 {
-                font-size: 1.75rem;
+                text-align: center;
             }
 
             .featured-text-col p {
                 max-width: 100%;
-                font-size: 0.85rem;
-                margin-bottom: 2rem;
-            }
-
-            .featured-product .cta-btn {
-                padding: 1rem 1.5rem;
-                font-size: 0.7rem;
             }
 
             .featured-text-col .whatsapp-buy-btn {
-                margin-left: 0;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .ingredients-grid {
@@ -1182,9 +1210,9 @@
         <section class="collection-section fade-in-section" id="shop">
             <div class="collection-header">
                 <h2>The Inaugural Collection</h2>
-                <div class="category-selector-wrapper" style="margin-top: 2rem;">
-                    <label for="productCategory" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-right: 1rem;">Select Product Type:</label>
-                    <select id="productCategory" onchange="updateProductCategory()" style="padding: 0.75rem 1.5rem; font-family: 'Inter', sans-serif; font-size: 1rem; border: 1px solid rgba(28,28,28,0.2); background-color: transparent; color: var(--text-dark); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22black%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position-x: 95%; background-position-y: 50%; min-width: 200px;">
+                <div class="category-selector-wrapper">
+                    <label for="productCategory" class="category-label">Select Product Type:</label>
+                    <select id="productCategory" class="category-select" onchange="updateProductCategory()">
                         <option value="Lip Gloss">Lip Glosses</option>
                         <option value="Lip Oil">Lip Oils</option>
                         <option value="Lip Balm">Lip Balms</option>
