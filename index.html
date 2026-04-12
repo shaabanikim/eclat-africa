@@ -994,6 +994,10 @@
                 display: inline-block;
             }
 
+            .hide-on-mobile {
+                display: none !important;
+            }
+
             .nav-links {
                 position: fixed;
                 top: 0;
@@ -1029,18 +1033,30 @@
             }
 
             .featured-product {
-                flex-direction: column;
-                gap: 3rem;
+                flex-direction: row;
+                gap: 2rem;
                 padding-top: 4rem;
-                text-align: center;
+                text-align: left;
+                align-items: center;
+            }
+
+            .featured-text-col h2 {
+                font-size: 1.75rem;
             }
 
             .featured-text-col p {
                 max-width: 100%;
+                font-size: 0.85rem;
+                margin-bottom: 2rem;
+            }
+
+            .featured-product .cta-btn {
+                padding: 1rem 1.5rem;
+                font-size: 0.7rem;
             }
 
             .featured-text-col .whatsapp-buy-btn {
-                margin-left: auto;
+                margin-left: 0;
             }
 
             .ingredients-grid {
@@ -1097,9 +1113,8 @@
         <div class="header-right">
             <nav class="desktop-nav">
                 <a href="#shop">Shop</a>
-                <a href="#affiliate">Affiliate</a>
-                <a href="#" id="nav-signin">Sign In</a>
-                <a href="#cart" class="cart-counter-text">Cart (0)</a>
+                <a href="#" id="nav-signin" class="hide-on-mobile">Sign In</a>
+                <a href="#cart" class="cart-counter-text hide-on-mobile">Cart (0)</a>
             </nav>
             <div class="mobile-menu-btn" id="mobileMenuBtn">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1141,35 +1156,6 @@
             </div>
             <div class="hero-image">
                 <img src="images/hero.jpg" alt="E'clat Africa Signature Lipgloss Collection">
-            </div>
-        </section>
-
-        <section class="ingredients-section" id="ingredients">
-            <div class="ingredients-header">
-                <h2>Pure African Botanicals</h2>
-                <p>The Elements of Shine</p>
-            </div>
-            <div class="ingredients-grid">
-                <div class="ingredient-card">
-                    <h3>Nilotica Shea</h3>
-                    <p>Deeply conditions and repairs with an ultra-rich, melting texture.</p>
-                </div>
-                <div class="ingredient-card">
-                    <h3>Baobab</h3>
-                    <p>Delivers a weightless surge of vitamin-rich moisture.</p>
-                </div>
-                <div class="ingredient-card">
-                    <h3>Marula</h3>
-                    <p>Infuses antioxidants and omegas for a high-gloss, smooth finish.</p>
-                </div>
-                <div class="ingredient-card">
-                    <h3>Moringa</h3>
-                    <p>Soothes dryness and protects against environmental stressors.</p>
-                </div>
-                <div class="ingredient-card">
-                    <h3>Kalahari Melon</h3>
-                    <p>Provides intense, continuous hydration without stickiness.</p>
-                </div>
             </div>
         </section>
 
@@ -1315,6 +1301,35 @@
             <div class="ribbon-btn-wrapper inline-wrapper">
                 <div class="kenyan-ribbon"></div>
                 <a href="#" class="cta-btn affiliate-join-btn">Join the Program</a>
+            </div>
+        </section>
+
+        <section class="ingredients-section fade-in-section" id="ingredients">
+            <div class="ingredients-header">
+                <h2>Pure African Botanicals</h2>
+                <p>The Elements of Shine</p>
+            </div>
+            <div class="ingredients-grid">
+                <div class="ingredient-card">
+                    <h3>Nilotica Shea</h3>
+                    <p>Deeply conditions and repairs with an ultra-rich, melting texture.</p>
+                </div>
+                <div class="ingredient-card">
+                    <h3>Baobab</h3>
+                    <p>Delivers a weightless surge of vitamin-rich moisture.</p>
+                </div>
+                <div class="ingredient-card">
+                    <h3>Marula</h3>
+                    <p>Infuses antioxidants and omegas for a high-gloss, smooth finish.</p>
+                </div>
+                <div class="ingredient-card">
+                    <h3>Moringa</h3>
+                    <p>Soothes dryness and protects against environmental stressors.</p>
+                </div>
+                <div class="ingredient-card">
+                    <h3>Kalahari Melon</h3>
+                    <p>Provides intense, continuous hydration without stickiness.</p>
+                </div>
             </div>
         </section>
     </main>
